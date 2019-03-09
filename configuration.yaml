@@ -1,0 +1,105 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Prague
+  # Customization file
+  customize: !include customize.yaml
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Show the introduction message on startup.
+# introduction:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+  - platform: time_date
+    display_options:
+      - time
+  - platform: rest
+    name: Outside temperature
+    resource: https://anyberry.net/zabinytemp/temp.json
+    unit_of_measurement: "°C"
+    value_template: '{{ value_json.temp }}'
+    json_attributes:
+      - timestamp
+  - platform: template
+    sensors:
+      outside_temperature_delay:
+        friendly_name: Outside temperature delay
+        value_template: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
+        unit_of_measurement: Minutes
+        entity_id: sensor.time
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /config
+      - type: memory_use_percent
+      - type: swap_use_percent
+      - type: load_1m
+      - type: processor_use
+      - type: last_boot
+      - type: network_in
+      - type: network_out
+
+
+# Text to speech
+# tts:
+#   - platform: google
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://hassio.local:3218
+
+media_player:
+  - platform: yamaha_musiccast
+    host: 192.168.1.4
+  - platform: panasonic_viera
+    host: 192.168.1.8
+    name: Panasonic
+    mac: BC:30:7D:2D:27:CA
+
+ios:
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  include_used_components: true
+
+system_health:
+
+# Discover some devices automatically
+discovery:
+
+# Enables support for tracking state changes over time
+history:
+
+hdmi_cec:
+  devices:
+    0: TV
+    1: Pi
+    2: Apple TV

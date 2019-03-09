@@ -1,0 +1,113 @@
+- alias: TV turned on
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: switch.hdmi_4
+      to: 'on'
+  action:
+    - service: media_player.turn_on
+      entity_id: media_player.yamaha_main
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.yamaha_main
+        source: optical
+    # - condition: and
+    #   conditions:
+    #     - condition: state
+    #       entity_id: group.all_lights
+    #       state: 'on'
+    # - service: hue.hue_activate_scene
+    #   data:
+    #     group_name: Living room
+    #     scene_name: Dim
+
+- alias: TV turned off
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: switch.hdmi_4
+      to: 'off'
+  action:
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.yamaha_main
+        source: spotify
+    # - condition: and
+    #   conditions:
+    #     - condition: state
+    #       entity_id: group.all_lights
+    #       state: 'on'
+    # - service: hue.hue_activate_scene
+    #   data:
+    #     group_name: Living room
+    #     scene_name: Normal
+
+# workaround to prevent tv automations from triggering on HA startup
+- alias: Delayed TV automations
+  initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - delay: '00:00:05'
+    - service: automation.turn_on
+      data:
+        entity_id: automation.tv_turned_on
+    - service: automation.turn_on
+      data:
+        entity_id: automation.tv_turned_off
+
+- alias: Weekly full snapshot
+  trigger:
+    - platform: time
+      at: '3:00:00'
+  condition:
+    - condition: time
+      weekday:
+        - mon
+  action:
+    - service: hassio.snapshot_full
+      data_template:
+        name: Automated full backup {{ now().strftime('%Y-%m-%d') }}
+    - delay:
+        minutes: 10
+    - service: hassio.addon_stdin
+      data:
+        addon: 7be23ff5_dropbox_sync
+        input:
+          command: upload
+
+- alias: Daily partial snapshot
+  trigger:
+    - platform: time
+      at: '4:00:00'
+  action:
+    - service: hassio.snapshot_partial
+      data_template:
+        name: Automated partial backup {{ now().strftime('%Y-%m-%d') }}
+        addons:
+          - core_check_config
+          - core_configurator
+          - core_samba
+          - core_ssh
+          - 7be23ff5_dropbox_sync
+        folders:
+          - homeassistant
+          - ssl
+          - addons_local.tar
+    - delay:
+        minutes: 10
+    - service: hassio.addon_stdin
+      data:
+        addon: 7be23ff5_dropbox_sync
+        input:
+          command: upload
+
+- alias: Lights on in the evening
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: '-00:30:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.all_lights
