@@ -49,7 +49,7 @@
     - platform: homeassistant
       event: start
   action:
-    - delay: '00:00:05'
+    - delay: '00:00:30'
     - service: automation.turn_on
       data:
         entity_id: automation.tv_turned_on
@@ -77,37 +77,51 @@
         input:
           command: upload
 
-- alias: Daily partial snapshot
-  trigger:
-    - platform: time
-      at: '4:00:00'
-  action:
-    - service: hassio.snapshot_partial
-      data_template:
-        name: Automated partial backup {{ now().strftime('%Y-%m-%d') }}
-        addons:
-          - core_check_config
-          - core_configurator
-          - core_samba
-          - core_ssh
-          - 7be23ff5_dropbox_sync
-        folders:
-          - homeassistant
-          - ssl
-          - addons_local.tar
-    - delay:
-        minutes: 10
-    - service: hassio.addon_stdin
-      data:
-        addon: 7be23ff5_dropbox_sync
-        input:
-          command: upload
+# - alias: Daily partial snapshot
+#   trigger:
+#     - platform: time
+#       at: '4:00:00'
+#   action:
+#     - service: hassio.snapshot_partial
+#       data_template:
+#         name: Automated partial backup {{ now().strftime('%Y-%m-%d') }}
+#         addons:
+#           - core_check_config
+#           - core_configurator
+#           - core_samba
+#           - core_ssh
+#           - 7be23ff5_dropbox_sync
+#         folders:
+#           - homeassistant
+#           - ssl
+#           - addons_local.tar
+#     - delay:
+#         minutes: 10
+#     - service: hassio.addon_stdin
+#       data:
+#         addon: 7be23ff5_dropbox_sync
+#         input:
+#           command: upload
 
 - alias: Lights on in the evening
   trigger:
     - platform: sun
       event: sunset
       offset: '-00:30:00'
+  condition:
+    - condition: state
+      entity_id: person.martin
+      state: home
   action:
     - service: homeassistant.turn_on
       entity_id: group.all_lights
+
+# - alias: 7 degrees outside
+#   trigger:
+#     - platform: numeric_state
+#       entity_id: sensor.outside_temperature
+#       above: 7
+#   action:
+#     - service: notify.ios_iphone
+#       data:
+#         message: "7 degrees outside!!"
