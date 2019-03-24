@@ -105,3 +105,10 @@ hdmi_cec:
     0: TV
     1: Pi
     2: Apple TV
+
+light:
+  - platform: group
+    name: Bar
+    entities:
+      - light.bar_1
+      - light.bar_2

@@ -1,5 +1,5 @@
 - alias: TV turned on
-  initial_state: 'off'
+  initial_state: 'on'
   trigger:
     - platform: state
       entity_id: switch.hdmi_4
@@ -22,7 +22,7 @@
     #     scene_name: Dim
 
 - alias: TV turned off
-  initial_state: 'off'
+  initial_state: 'on'
   trigger:
     - platform: state
       entity_id: switch.hdmi_4
@@ -43,19 +43,19 @@
     #     scene_name: Normal
 
 # workaround to prevent tv automations from triggering on HA startup
-- alias: Delayed TV automations
-  initial_state: 'on'
-  trigger:
-    - platform: homeassistant
-      event: start
-  action:
-    - delay: '00:00:30'
-    - service: automation.turn_on
-      data:
-        entity_id: automation.tv_turned_on
-    - service: automation.turn_on
-      data:
-        entity_id: automation.tv_turned_off
+# - alias: Delayed TV automations
+#   initial_state: 'on'
+#   trigger:
+#     - platform: homeassistant
+#       event: start
+#   action:
+#     - delay: '00:00:30'
+#     - service: automation.turn_on
+#       data:
+#         entity_id: automation.tv_turned_on
+#     - service: automation.turn_on
+#       data:
+#         entity_id: automation.tv_turned_off
 
 - alias: Weekly full snapshot
   trigger:
@@ -107,14 +107,36 @@
   trigger:
     - platform: sun
       event: sunset
-      offset: '-00:30:00'
+      offset: '-00:10:00'
   condition:
     - condition: state
       entity_id: person.martin
       state: home
   action:
-    - service: homeassistant.turn_on
-      entity_id: group.all_lights
+    - service: light.turn_on
+      data:
+        entity_id: light.center
+        transition: 1200
+        brightness: 128
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_table
+        transition: 1200
+        brightness: 178
+    - service: light.turn_on
+      data:
+        entity_id: light.bar
+        transition: 1200
+        brightness: 178
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_desk
+        transition: 1200
+        brightness: 178
+    # - service: hue.hue_activate_scene
+    #   data:
+    #     group_name: "Living room"
+    #     scene_name: "Normal"
 
 # - alias: 7 degrees outside
 #   trigger:

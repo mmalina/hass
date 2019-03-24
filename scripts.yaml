@@ -4,3 +4,26 @@
 #       data:
 #         group_name: "Living room"
 #         scene_name: "Porch Orange"
+
+test_transition:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.center
+        transition: 100
+        brightness: 128
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_table
+        transition: 100
+        brightness: 178
+    - service: light.turn_on
+      data:
+        entity_id: light.bar
+        transition: 100
+        brightness: 178
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_desk
+        transition: 100
+        brightness: 178
