@@ -73,7 +73,7 @@ panel_iframe:
 
 media_player:
   - platform: yamaha_musiccast
-    host: 192.168.1.4
+    host: 192.168.1.47
   - platform: panasonic_viera
     host: 192.168.1.8
     name: Panasonic
@@ -112,3 +112,11 @@ light:
     entities:
       - light.bar_1
       - light.bar_2
+  - platform: mqtt
+    name: Hall
+    state_topic: "shellies/shelly1-93B03E/relay/0"
+    command_topic: "shellies/shelly1-93B03E/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+    qos: 2
