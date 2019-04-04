@@ -120,3 +120,8 @@ light:
     payload_off: "off"
     retain: true
     qos: 2
+
+homekit:
+  filter:
+    include_entities:
+      - light.hall
