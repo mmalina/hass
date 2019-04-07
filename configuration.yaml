@@ -13,6 +13,13 @@ homeassistant:
   # Customization file
   customize: !include customize.yaml
 
+zone:
+  - name: Work
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    radius: 100
+    icon: mdi:office
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
