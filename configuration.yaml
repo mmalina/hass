@@ -62,7 +62,9 @@ sensor:
       - type: last_boot
       - type: network_in
       - type: network_out
-
+  - platform: onewire
+    names:
+      28-03079779cad9: Living Room
 
 # Text to speech
 # tts:
