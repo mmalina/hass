@@ -133,6 +133,8 @@ homekit:
   filter:
     include_entities:
       - light.hall
+      - sensor.outside_temperature
+      - sensor.living_room_temperature
 
 device_tracker:
   - platform: unifi_direct
