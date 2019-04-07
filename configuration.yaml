@@ -127,8 +127,7 @@ light:
     command_topic: "shellies/shelly1-93B03E/relay/0/command"
     payload_on: "on"
     payload_off: "off"
-    retain: true
-    qos: 2
+    retain: false
 
 homekit:
   filter:
