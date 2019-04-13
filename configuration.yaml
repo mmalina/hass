@@ -63,8 +63,15 @@ sensor:
       - type: network_in
       - type: network_out
   - platform: onewire
-    names:
-      28-03079779cad9: Living Room
+  #   names:
+  #     28-03079779cad9: Living Room
+  - platform: filter
+    name: Living Room Temperature
+    entity_id: sensor.28_03079779cad9_temperature
+    filters:
+      - filter: time_simple_moving_average
+        window_size: 00:10
+        precision: 1
 
 # Text to speech
 # tts:
