@@ -150,3 +150,6 @@ device_tracker:
     password: !secret unifi_password
     new_device_defaults:
       track_new_devices: false
+
+lovelace:
+  mode: yaml

@@ -1,0 +1,76 @@
+resources:
+  - type: js
+    url: /local/slider-entity-row.js?v=1
+  # from https://github.com/kalkih/mini-graph-card
+  - type: module
+    url: /local/mini-graph-card-bundle.js?v=0.3.3
+title: Home
+views:
+  - badges:
+      - sensor.yr_symbol
+      - sensor.outside_temperature
+      - sun.sun
+    cards:
+      - entities:
+          - entity: light.center
+            toggle: true
+            type: 'custom:slider-entity-row'
+          - entity: light.kitchen_table
+            name: Table
+            toggle: true
+            type: 'custom:slider-entity-row'
+          - entity: light.bar
+            toggle: true
+            type: 'custom:slider-entity-row'
+          - entity: light.kitchen_desk
+            name: Hue Strip
+            toggle: true
+            type: 'custom:slider-entity-row'
+          - entity: light.hall
+        title: Light
+        type: entities
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.outside_temperature
+        hours_to_show: 48
+        points_per_hour: 0.5
+        hour24: true
+        show:
+          extrema: true
+      - detail: 2
+        entity: sensor.outside_temperature_delay
+        name: Outside Temperature Delay
+        type: sensor
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.living_room_temperature
+        hours_to_show: 48
+        points_per_hour: 0.5
+        hour24: true
+        icon: 'mdi:thermometer'
+        show:
+          extrema: true
+      - entity: media_player.yamaha_main
+        type: media-control
+      - entities:
+          - person.martin
+        title: ''
+        type: entities
+      # - detail: 2
+      #   entity: sensor.living_room_temperature
+      #   hours_to_show: 1
+      #   name: Living Room Temperature
+      #   type: sensor
+      - entities:
+          - entity: switch.hdmi_4
+            name: Apple TV
+          - entity: switch.hdmi_0
+            name: Panasonic TV
+        show_header_toggle: true
+        title: HDMI CEC
+        type: entities
+    path: default_view
+    title: Home
+  - badges: []
+    cards: []
+
