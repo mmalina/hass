@@ -32,8 +32,8 @@ views:
       - type: custom:mini-graph-card
         entities:
           - sensor.outside_temperature
-        hours_to_show: 48
-        points_per_hour: 0.5
+        hours_to_show: 24
+        points_per_hour: 1
         hour24: true
         show:
           extrema: true
@@ -44,8 +44,8 @@ views:
       - type: custom:mini-graph-card
         entities:
           - sensor.living_room_temperature
-        hours_to_show: 48
-        points_per_hour: 0.5
+        hours_to_show: 24
+        points_per_hour: 1
         hour24: true
         icon: 'mdi:thermometer'
         show:
