@@ -9,6 +9,7 @@ views:
   - badges:
       - sensor.yr_symbol
       - sensor.outside_temperature
+      - sensor.living_room_temperature
       - sun.sun
     cards:
       - entities:
@@ -33,7 +34,7 @@ views:
         entities:
           - sensor.outside_temperature
         hours_to_show: 24
-        points_per_hour: 1
+        points_per_hour: 2
         hour24: true
         show:
           extrema: true
@@ -45,7 +46,7 @@ views:
         entities:
           - sensor.living_room_temperature
         hours_to_show: 24
-        points_per_hour: 1
+        points_per_hour: 2
         hour24: true
         icon: 'mdi:thermometer'
         show:

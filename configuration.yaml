@@ -81,11 +81,11 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 
-panel_iframe:
-  configurator:
-    title: Configurator
-    icon: mdi:wrench
-    url: http://hassio.local:3218
+# panel_iframe:
+#   configurator:
+#     title: Configurator
+#     icon: mdi:wrench
+#     url: http://hassio.local:3218
 
 media_player:
   - platform: yamaha_musiccast
