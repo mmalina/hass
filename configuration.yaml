@@ -67,7 +67,7 @@ sensor:
   #     28-03079779cad9: Living Room
   - platform: filter
     name: Living Room Temperature
-    entity_id: sensor.28_03079779cad9_temperature
+    entity_id: sensor.28_01160068adff_temperature
     filters:
       - filter: time_simple_moving_average
         window_size: 00:10
