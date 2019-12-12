@@ -1,4 +1,5 @@
 - alias: TV turned on
+  id: tv_turned_on
   initial_state: 'on'
   trigger:
     - platform: state
@@ -22,6 +23,7 @@
     #     scene_name: Dim
 
 - alias: TV turned off
+  id: tv_turned_off
   initial_state: 'on'
   trigger:
     - platform: state
@@ -58,6 +60,7 @@
 #         entity_id: automation.tv_turned_off
 
 - alias: Weekly full snapshot
+  id: weekly_full_snapshot
   trigger:
     - platform: time
       at: '3:00:00'
@@ -104,6 +107,7 @@
 #           command: upload
 
 - alias: Lights on in the evening
+  id: lights_on_in_the_evening
   trigger:
     - platform: sun
       event: sunset

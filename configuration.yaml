@@ -153,3 +153,6 @@ device_tracker:
 
 lovelace:
   mode: yaml
+
+# Activate the configuration editor
+config:
