@@ -51,6 +51,8 @@ views:
         icon: 'mdi:thermometer'
         show:
           extrema: true
+      - entity: climate.living_room
+        type: thermostat
       - entity: media_player.yamaha_main
         type: media-control
       - entities:

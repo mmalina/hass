@@ -136,6 +136,28 @@ light:
     payload_off: "off"
     retain: false
 
+switch:
+  - platform: mqtt
+    name: Boiler
+    state_topic: "shellies/shelly1-93BFD3/relay/0"
+    command_topic: "shellies/shelly1-93BFD3/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+
+climate:
+  - platform: generic_thermostat
+    name: Living Room
+    heater: switch.boiler
+    target_sensor: sensor.28_01160068adff_temperature
+    target_temp: 17
+    cold_tolerance: 0.3
+    hot_tolerance: 0
+    min_cycle_duration:
+      minutes: 5
+    initial_hvac_mode: "off"
+    away_temp: 16
+    precision: 0.1
+
 homekit:
   filter:
     include_entities:
