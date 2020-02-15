@@ -4,6 +4,9 @@ resources:
   # from https://github.com/kalkih/mini-graph-card
   - type: module
     url: /local/mini-graph-card-bundle.js?v=0.3.3
+  # from https://github.com/nervetattoo/simple-thermostat
+  - type: module
+    url: /local/simple-thermostat.js?v=1
 title: Home
 views:
   - badges:
@@ -52,7 +55,9 @@ views:
         show:
           extrema: true
       - entity: climate.living_room
-        type: thermostat
+        type: 'custom:simple-thermostat'
+        control:
+          - hvac
       - entity: media_player.yamaha_main
         type: media-control
       - entities:
