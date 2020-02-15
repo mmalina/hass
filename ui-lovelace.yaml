@@ -64,11 +64,6 @@ views:
           - person.martin
         title: ''
         type: entities
-      # - detail: 2
-      #   entity: sensor.living_room_temperature
-      #   hours_to_show: 1
-      #   name: Living Room Temperature
-      #   type: sensor
       - entities:
           - entity: switch.hdmi_4
             name: Apple TV

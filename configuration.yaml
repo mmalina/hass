@@ -51,41 +51,13 @@ sensor:
         value_template: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
         unit_of_measurement: Minutes
         entity_id: sensor.time
-  - platform: systemmonitor
-    resources:
-      - type: disk_use_percent
-        arg: /config
-      - type: memory_use_percent
-      - type: swap_use_percent
-      - type: load_1m
-      - type: processor_use
-      - type: last_boot
-      - type: network_in
-      - type: network_out
   - platform: onewire
-  #   names:
-  #     28-03079779cad9: Living Room
-  - platform: filter
-    name: Living Room Temperature
-    entity_id: sensor.28_01160068adff_temperature
-    filters:
-      - filter: time_simple_moving_average
-        window_size: 00:10
-        precision: 1
-
-# Text to speech
-# tts:
-#   - platform: google
+    names:
+      28-01160068adff: Living Room
 
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
-
-# panel_iframe:
-#   configurator:
-#     title: Configurator
-#     icon: mdi:wrench
-#     url: http://hassio.local:3218
 
 media_player:
   - platform: yamaha_musiccast
@@ -148,7 +120,7 @@ climate:
   - platform: generic_thermostat
     name: Living Room
     heater: switch.boiler
-    target_sensor: sensor.28_01160068adff_temperature
+    target_sensor: sensor.living_room_temperature
     target_temp: 17
     cold_tolerance: 0.3
     hot_tolerance: 0
