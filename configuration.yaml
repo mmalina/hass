@@ -67,8 +67,6 @@ media_player:
     name: Panasonic
     mac: BC:30:7D:2D:27:CA
 
-ios:
-
 # Checks for available updates
 # Note: This component will send some information about your system to
 # the developers to assist with development of Home Assistant.
@@ -121,12 +119,10 @@ climate:
     name: Living Room
     heater: switch.boiler
     target_sensor: sensor.living_room_temperature
-    target_temp: 17
     cold_tolerance: 0.3
     hot_tolerance: 0
     min_cycle_duration:
       minutes: 5
-    initial_hvac_mode: "off"
     away_temp: 16
     precision: 0.1
 
@@ -136,6 +132,7 @@ homekit:
       - light.hall
       - sensor.outside_temperature
       - sensor.living_room_temperature
+      - climate.living_room
 
 device_tracker:
   - platform: unifi_direct
