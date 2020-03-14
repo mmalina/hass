@@ -54,6 +54,10 @@ sensor:
   - platform: onewire
     names:
       28-01160068adff: Living Room
+  - platform: mqtt
+    name: Bridge state
+    state_topic: "zigbee2mqtt/bridge/state"
+    icon: mdi:router-wireless
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -147,3 +151,14 @@ lovelace:
 
 # Activate the configuration editor
 config:
+
+input_boolean:
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+
+timer:
+  zigbee_permit_join:
+    name: Time remaining
+    duration: 600
