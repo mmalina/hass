@@ -2,196 +2,154 @@
   id: tv_turned_on
   initial_state: 'on'
   trigger:
-    - platform: state
-      entity_id: switch.hdmi_4
-      to: 'on'
+  - platform: state
+    entity_id: switch.hdmi_4
+    to: 'on'
   action:
-    - service: media_player.turn_on
+  - service: media_player.turn_on
+    entity_id: media_player.yamaha_main
+  - service: media_player.select_source
+    data:
       entity_id: media_player.yamaha_main
-    - service: media_player.select_source
-      data:
-        entity_id: media_player.yamaha_main
-        source: optical
-    # - condition: and
-    #   conditions:
-    #     - condition: state
-    #       entity_id: group.all_lights
-    #       state: 'on'
-    # - service: hue.hue_activate_scene
-    #   data:
-    #     group_name: Living room
-    #     scene_name: Dim
-
+      source: optical
 - alias: TV turned off
   id: tv_turned_off
   initial_state: 'on'
   trigger:
-    - platform: state
-      entity_id: switch.hdmi_4
-      to: 'off'
+  - platform: state
+    entity_id: switch.hdmi_4
+    to: 'off'
   action:
-    - service: media_player.select_source
-      data:
-        entity_id: media_player.yamaha_main
-        source: spotify
-    # - condition: and
-    #   conditions:
-    #     - condition: state
-    #       entity_id: group.all_lights
-    #       state: 'on'
-    # - service: hue.hue_activate_scene
-    #   data:
-    #     group_name: Living room
-    #     scene_name: Normal
-
-# workaround to prevent tv automations from triggering on HA startup
-# - alias: Delayed TV automations
-#   initial_state: 'on'
-#   trigger:
-#     - platform: homeassistant
-#       event: start
-#   action:
-#     - delay: '00:00:30'
-#     - service: automation.turn_on
-#       data:
-#         entity_id: automation.tv_turned_on
-#     - service: automation.turn_on
-#       data:
-#         entity_id: automation.tv_turned_off
-
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.yamaha_main
+      source: spotify
 - alias: Weekly full snapshot
   id: weekly_full_snapshot
   trigger:
-    - platform: time
-      at: '3:00:00'
+  - platform: time
+    at: '3:00:00'
   condition:
-    - condition: time
-      weekday:
-        - mon
+  - condition: time
+    weekday:
+    - mon
   action:
-    - service: hassio.snapshot_full
-      data_template:
-        name: Automated full backup {{ now().strftime('%Y-%m-%d') }}
-    - delay:
-        minutes: 10
-    - service: hassio.addon_stdin
-      data:
-        addon: 7be23ff5_dropbox_sync
-        input:
-          command: upload
-
-# - alias: Daily partial snapshot
-#   trigger:
-#     - platform: time
-#       at: '4:00:00'
-#   action:
-#     - service: hassio.snapshot_partial
-#       data_template:
-#         name: Automated partial backup {{ now().strftime('%Y-%m-%d') }}
-#         addons:
-#           - core_check_config
-#           - core_configurator
-#           - core_samba
-#           - core_ssh
-#           - 7be23ff5_dropbox_sync
-#         folders:
-#           - homeassistant
-#           - ssl
-#           - addons_local.tar
-#     - delay:
-#         minutes: 10
-#     - service: hassio.addon_stdin
-#       data:
-#         addon: 7be23ff5_dropbox_sync
-#         input:
-#           command: upload
-
+  - service: hassio.snapshot_full
+    data_template:
+      name: Automated full backup {{ now().strftime('%Y-%m-%d') }}
+  - delay:
+      minutes: 10
+  - service: hassio.addon_stdin
+    data:
+      addon: 7be23ff5_dropbox_sync
+      input:
+        command: upload
 - alias: Lights on in the evening
   id: lights_on_in_the_evening
   trigger:
-    - platform: sun
-      event: sunset
-      offset: '-00:10:00'
+  - platform: sun
+    event: sunset
+    offset: -00:10:00
   condition:
-    - condition: state
-      entity_id: person.martin
-      state: home
+  - condition: state
+    entity_id: person.martin
+    state: home
   action:
-    - service: light.turn_on
-      data:
-        entity_id: light.center
-        transition: 1200
-        brightness: 128
-    - service: light.turn_on
-      data:
-        entity_id: light.kitchen_table
-        transition: 1200
-        brightness: 178
-    - service: light.turn_on
-      data:
-        entity_id: light.bar
-        transition: 1200
-        brightness: 178
-    - service: light.turn_on
-      data:
-        entity_id: light.kitchen_desk
-        transition: 1200
-        brightness: 178
-    # - service: hue.hue_activate_scene
-    #   data:
-    #     group_name: "Living room"
-    #     scene_name: "Normal"
-
-# - alias: 7 degrees outside
-#   trigger:
-#     - platform: numeric_state
-#       entity_id: sensor.outside_temperature
-#       above: 7
-#   action:
-#     - service: notify.ios_iphone
-#       data:
-#         message: "7 degrees outside!!"
+  - service: light.turn_on
+    data:
+      entity_id: light.center
+      transition: 1200
+      brightness: 128
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_table
+      transition: 1200
+      brightness: 178
+  - service: light.turn_on
+    data:
+      entity_id: light.bar
+      transition: 1200
+      brightness: 178
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      transition: 1200
+      brightness: 178
 
 - id: enable_zigbee_join
   alias: Enable Zigbee joining
   trigger:
-    - platform: state
-      entity_id: input_boolean.zigbee_permit_join
-      to: 'on'
+  - platform: state
+    entity_id: input_boolean.zigbee_permit_join
+    to: 'on'
   action:
-    - service: mqtt.publish
-      data:
-        topic: zigbee2mqtt/bridge/config/permit_join
-        payload: 'true'
-    - service: timer.start
-      data:
-        entity_id: timer.zigbee_permit_join
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'true'
+  - service: timer.start
+    data:
+      entity_id: timer.zigbee_permit_join
 - id: disable_zigbee_join
   alias: Disable Zigbee joining
   trigger:
-    - entity_id: input_boolean.zigbee_permit_join
-      platform: state
-      to: 'off'
+  - entity_id: input_boolean.zigbee_permit_join
+    platform: state
+    to: 'off'
   action:
-    - data:
-        payload: 'false'
-        topic: zigbee2mqtt/bridge/config/permit_join
-      service: mqtt.publish
-    - data:
-        entity_id: timer.zigbee_permit_join
-      service: timer.cancel
+  - data:
+      payload: 'false'
+      topic: zigbee2mqtt/bridge/config/permit_join
+    service: mqtt.publish
+  - data:
+      entity_id: timer.zigbee_permit_join
+    service: timer.cancel
 - id: disable_zigbee_join_timer
   alias: Disable Zigbee joining by timer
   trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.zigbee_permit_join
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.zigbee_permit_join
   action:
-    - service: mqtt.publish
-      data:
-        topic: zigbee2mqtt/bridge/config/permit_join
-        payload: 'false'
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.zigbee_permit_join
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'false'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.zigbee_permit_join
+
+- id: ikea_controller_volume_down
+  alias: Ikea Controller Volume Down
+  trigger:
+  - platform: mqtt
+    topic: zigbee2mqtt/ikea_controller
+  condition:
+  - condition: template
+    value_template: "{{ (trigger.payload|from_json).action == 'rotate_left' }}"
+  action:
+  # - entity_id: media_player.yamaha_main
+  #   service: media_player.turn_on
+  # - service: notify.notify
+  #   data_template:
+  #     message: >- # '{{ (trigger.payload|from_json).action }}'
+  #       {{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_main
+    data_template:
+      volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}"
+
+- id: ikea_controller_volume_up
+  alias: Ikea Controller Volume Up
+  trigger:
+  - platform: mqtt
+    topic: zigbee2mqtt/ikea_controller
+  condition:
+  - condition: template
+    value_template: "{{ (trigger.payload|from_json).action == 'rotate_right' }}"
+  action:
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_main
+    data_template:
+      volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
