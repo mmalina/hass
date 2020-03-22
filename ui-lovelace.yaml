@@ -1,10 +1,6 @@
 title: Home
 views:
-  - badges:
-      - sensor.yr_symbol
-      - sensor.outside_temperature
-      - sensor.living_room_temperature
-      - sun.sun
+  - badges: []
     cards:
       - entities:
           - entity: light.center
@@ -72,6 +68,3 @@ views:
         title: Zigbee
     path: default_view
     title: Home
-  - badges: []
-    cards: []
-
