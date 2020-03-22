@@ -171,3 +171,8 @@ timer:
   zigbee_permit_join:
     name: Time remaining
     duration: 600
+
+weather:
+  - platform: darksky
+    mode: daily
+    api_key: !secret darksky_api_key
