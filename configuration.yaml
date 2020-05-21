@@ -65,11 +65,7 @@ script: !include scripts.yaml
 
 media_player:
   - platform: yamaha_musiccast
-    host: 192.168.1.47
-  - platform: panasonic_viera
-    host: 192.168.1.8
-    name: Panasonic
-    mac: BC:30:7D:2D:27:CA
+    host: yamaha.local
 
 # Checks for available updates
 # Note: This component will send some information about your system to
