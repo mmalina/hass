@@ -145,8 +145,9 @@ device_tracker:
 lovelace:
   mode: yaml
   resources:
-    - type: js
-      url: /local/slider-entity-row.js?v=1
+    # from https://github.com/thomasloven/lovelace-slider-entity-row
+    - type: module
+      url: /local/slider-entity-row.js?v=2
     # from https://github.com/kalkih/mini-graph-card
     - type: module
       url: /local/mini-graph-card-bundle.js?v=0.9.3
