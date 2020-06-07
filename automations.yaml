@@ -153,3 +153,13 @@
     entity_id: media_player.yamaha_main
     data_template:
       volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
+
+- id: lights_off_when_i_leave
+  alias: Lights off when I leave
+  trigger:
+  - platform: state
+    entity_id: person.martin
+    to: not_home
+  action:
+  - service: light.turn_off
+    entity_id: all
