@@ -39,7 +39,7 @@ sensor:
       - time
   - platform: rest
     name: Outside temperature
-    resource: https://anyberry.net/zabinytemp/temp.json
+    resource: http://local-zabiny-temp:8000/
     unit_of_measurement: "°C"
     value_template: '{{ value_json.temp }}'
     json_attributes:
