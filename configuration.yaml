@@ -133,6 +133,7 @@ homekit:
       - sensor.outside_temperature
       - sensor.living_room_temperature
       - climate.living_room
+      - sensor.0x00158d0004873fc9_temperature
 
 device_tracker:
   - platform: unifi_direct

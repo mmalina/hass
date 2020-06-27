@@ -32,8 +32,6 @@ views:
         entity: sensor.outside_temperature_delay
         name: Outside Temperature Delay
         type: sensor
-      - type: weather-forecast
-        entity: weather.dark_sky
       - type: custom:mini-graph-card
         entities:
           - sensor.living_room_temperature
@@ -43,6 +41,18 @@ views:
         icon: 'mdi:thermometer'
         show:
           extrema: true
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.0x00158d0004873fc9_temperature
+        hours_to_show: 24
+        points_per_hour: 2
+        decimals: 1
+        hour24: true
+        icon: 'mdi:thermometer'
+        show:
+          extrema: true
+      - type: weather-forecast
+        entity: weather.dark_sky
       - entity: climate.living_room
         type: 'custom:simple-thermostat'
         control:
