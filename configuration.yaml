@@ -38,7 +38,7 @@ sensor:
     display_options:
       - time
   - platform: rest
-    name: Outside temperature
+    name: Outside Temperature
     resource: http://local-zabiny-temp:8000/
     unit_of_measurement: "°C"
     value_template: '{{ value_json.temp }}'
@@ -47,7 +47,7 @@ sensor:
   - platform: template
     sensors:
       outside_temperature_delay:
-        friendly_name: Outside temperature delay
+        friendly_name: Outside Temperature Delay
         value_template: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
         unit_of_measurement: Minutes
         entity_id: sensor.time
