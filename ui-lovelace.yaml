@@ -78,5 +78,8 @@ views:
           - entity: sensor.bridge_state
         show_header_toggle: false
         title: Zigbee
+      - type: entity
+        entity: binary_sensor.door_contact
+        name: Main Door
     path: default_view
     title: Home
