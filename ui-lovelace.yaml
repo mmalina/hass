@@ -81,5 +81,8 @@ views:
       - type: entity
         entity: binary_sensor.door_contact
         name: Main Door
+      - type: entity
+        entity: binary_sensor.freezer_contact
+        name: Freezer
     path: default_view
     title: Home
