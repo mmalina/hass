@@ -64,7 +64,7 @@ views:
         title: ''
         type: entities
       - entities:
-          - entity: switch.hdmi_4
+          - entity: switch.hdmi_8
             name: Apple TV
           - entity: switch.hdmi_0
             name: Panasonic TV
