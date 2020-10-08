@@ -149,10 +149,10 @@ lovelace:
       url: /local/slider-entity-row.js?v=2
     # from https://github.com/kalkih/mini-graph-card
     - type: module
-      url: /local/mini-graph-card-bundle.js?v=0.9.3
+      url: /local/mini-graph-card-bundle.js?v=0.9.4
     # from https://github.com/nervetattoo/simple-thermostat
     - type: module
-      url: /local/simple-thermostat.js?v=1
+      url: /local/simple-thermostat.js?v=0.36.0
 
 # Activate the configuration editor
 config:
