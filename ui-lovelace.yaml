@@ -71,18 +71,11 @@ views:
         show_header_toggle: true
         title: HDMI CEC
         type: entities
-      - type: entities
-        entities:
-          - entity: input_boolean.zigbee_permit_join
-          - entity: timer.zigbee_permit_join
-          - entity: sensor.bridge_state
-        show_header_toggle: false
-        title: Zigbee
       - type: entity
-        entity: binary_sensor.door_contact
+        entity: binary_sensor.main_door
         name: Main Door
       - type: entity
-        entity: binary_sensor.freezer_contact
-        name: Freezer
+        entity: binary_sensor.freezer_door
+        name: Freezer Door
     path: default_view
     title: Home
