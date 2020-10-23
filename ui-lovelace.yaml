@@ -43,7 +43,7 @@ views:
           extrema: true
       - type: custom:mini-graph-card
         entities:
-          - sensor.0x00158d0004873fc9_temperature
+          - sensor.bedroom
         hours_to_show: 24
         points_per_hour: 2
         decimals: 1
