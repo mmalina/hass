@@ -1,0 +1,32 @@
+volume_down_loop:
+  alias: Volume Down Loop
+  mode: single
+  sequence:
+    - service: script.turn_off
+      data:
+        entity_id: script.volume_up_loop
+    - repeat:
+        count: 20
+        sequence:
+          - service: media_player.volume_set
+            entity_id: media_player.yamaha_main
+            data_template:
+              volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}"
+          - delay:
+              milliseconds: 50
+volume_up_loop:
+  alias: Volume Up Loop
+  mode: single
+  sequence:
+    - service: script.turn_off
+      data:
+        entity_id: script.volume_down_loop
+    - repeat:
+        count: 20
+        sequence:
+          - service: media_player.volume_set
+            entity_id: media_player.yamaha_main
+            data_template:
+              volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
+          - delay:
+              milliseconds: 50
