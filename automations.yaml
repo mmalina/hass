@@ -76,39 +76,33 @@
       transition: 1200
       brightness: 178
 
-# - id: ikea_controller_volume_down
-#   alias: Ikea Controller Volume Down
-#   trigger:
-#   - platform: mqtt
-#     topic: zigbee2mqtt/ikea_controller
-#   condition:
-#   - condition: template
-#     value_template: "{{ (trigger.payload|from_json).action == 'rotate_left' }}"
-#   action:
-#   # - entity_id: media_player.yamaha_main
-#   #   service: media_player.turn_on
-#   # - service: notify.notify
-#   #   data_template:
-#   #     message: >- # '{{ (trigger.payload|from_json).action }}'
-#   #       {{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}
-#   - service: media_player.volume_set
-#     entity_id: media_player.yamaha_main
-#     data_template:
-#       volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}"
+- id: sound_controller_volume_down
+  alias: Sound Controller Volume Down
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: sound_controller
+      event: 3001  # rotate left
+  action:
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_main
+    data_template:
+      volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') - 0.02 }}"
 
-# - id: ikea_controller_volume_up
-#   alias: Ikea Controller Volume Up
-#   trigger:
-#   - platform: mqtt
-#     topic: zigbee2mqtt/ikea_controller
-#   condition:
-#   - condition: template
-#     value_template: "{{ (trigger.payload|from_json).action == 'rotate_right' }}"
-#   action:
-#   - service: media_player.volume_set
-#     entity_id: media_player.yamaha_main
-#     data_template:
-#       volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
+- id: sound_controller_volume_up
+  alias: Sound Controller Volume Up
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: sound_controller
+      event: 2001  # rotate right
+  action:
+  - service: media_player.volume_set
+    entity_id: media_player.yamaha_main
+    data_template:
+      volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
 
 - id: lights_off
   alias: Lights off
