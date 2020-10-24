@@ -157,3 +157,17 @@ weather:
   - platform: darksky
     mode: daily
     api_key: !secret darksky_api_key
+
+notify:
+  - name: email
+    # sender: no-reply@homeassistant.local
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: anyberry@gmail.com
+    encryption: starttls
+    username: anyberry@gmail.com
+    password: !secret gmail_password
+    recipient: anyberry@gmail.com
+    sender_name: My Home Assistant

@@ -138,3 +138,22 @@
   action:
   - service: light.turn_off
     entity_id: all
+
+# Alert when Freezer is open for over 10 minutes
+- id: freezer_open_alert
+  alias: Freezer Open Alert
+  trigger:
+    platform: state
+    entity_id: binary_sensor.freezer_door
+    to: "on"
+    for: 00:10:00
+  action:
+    - service: persistent_notification.create
+      data:
+        title: 'Freezer open for over 10 minutes'
+        message: 'Freezer open for over 10 minutes.'
+        notification_id: freezer_open_alert
+    - service: notify.email
+      data:
+        title: 'Freezer open for over 10 minutes'
+        message: 'Freezer open for over 10 minutes.'
