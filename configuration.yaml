@@ -51,7 +51,7 @@ sensor:
         entity_id: sensor.time
   - platform: onewire
     names:
-      28-01160068adff: Living Room
+      28-01160068adff: Hifi Corner
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -110,7 +110,7 @@ switch:
 
 climate:
   - platform: generic_thermostat
-    name: Living Room
+    name: Heating
     heater: switch.boiler
     target_sensor: sensor.living_room_temperature
     cold_tolerance: 0.3
@@ -126,8 +126,7 @@ homekit:
       - light.hall
       - sensor.outside_temperature
       - sensor.living_room_temperature
-      - climate.living_room
-      - sensor.0x00158d0004873fc9_temperature
+      - climate.heating
 
 device_tracker:
   - platform: unifi_direct
@@ -138,17 +137,17 @@ device_tracker:
       track_new_devices: false
 
 lovelace:
-  mode: yaml
-  resources:
-    # from https://github.com/thomasloven/lovelace-slider-entity-row
-    - type: module
-      url: /local/slider-entity-row.js?v=2
-    # from https://github.com/kalkih/mini-graph-card
-    - type: module
-      url: /local/mini-graph-card-bundle.js?v=0.9.4
-    # from https://github.com/nervetattoo/simple-thermostat
-    - type: module
-      url: /local/simple-thermostat.js?v=0.36.0
+  # mode: yaml
+  # resources:
+  #   # from https://github.com/thomasloven/lovelace-slider-entity-row
+  #   - type: module
+  #     url: /local/slider-entity-row.js?v=2
+  #   # from https://github.com/kalkih/mini-graph-card
+  #   - type: module
+  #     url: /local/mini-graph-card-bundle.js?v=0.9.4
+  #   # from https://github.com/nervetattoo/simple-thermostat
+  #   - type: module
+  #     url: /local/simple-thermostat.js?v=0.36.0
 
 # Activate the configuration editor
 config:
