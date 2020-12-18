@@ -75,7 +75,6 @@
       entity_id: light.kitchen_desk
       transition: 1200
       brightness: 178
-
 - id: sound_controller_volume_down
   alias: Sound Controller Volume Down
   trigger:
@@ -83,11 +82,11 @@
     event_type: deconz_event
     event_data:
       id: sound_controller
-      event: 3001  # rotate left
+      event: 3001
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.volume_down_loop
+  - service: script.turn_on
+    data:
+      entity_id: script.volume_down_loop
 - id: sound_controller_volume_up
   alias: Sound Controller Volume Up
   trigger:
@@ -95,11 +94,11 @@
     event_type: deconz_event
     event_data:
       id: sound_controller
-      event: 2001  # rotate right
+      event: 2001
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.volume_up_loop
+  - service: script.turn_on
+    data:
+      entity_id: script.volume_up_loop
 - id: sound_controller_volume_stop
   alias: Sound Controller Volume Stop
   trigger:
@@ -107,26 +106,31 @@
     event_type: deconz_event
     event_data:
       id: sound_controller
-  condition: "{{ trigger.event.data.event not in [3001, 2001] }}"
+  condition: '{{ trigger.event.data.event not in [3001, 2001] }}'
   action:
-    - service: script.turn_off
-      data:
-        entity_id: script.volume_up_loop
-    - service: script.turn_off
-      data:
-        entity_id: script.volume_down_loop
+  - service: script.turn_off
+    data:
+      entity_id: script.volume_up_loop
+  - service: script.turn_off
+    data:
+      entity_id: script.volume_down_loop
 - id: sound_controller_switch_yamaha
-  alias: Sound Controller Switch Yamaha
+  alias: Sound Controller Turn On
   trigger:
-    platform: event
+  - platform: event
     event_type: deconz_event
     event_data:
       id: sound_controller
-      event: 1002  # button click
+      event: 1002
+  condition:
+  - condition: state
+    entity_id: media_player.yamaha_main
+    state: 'off'
   action:
-    - service: media_player.toggle
+  - service: media_player.turn_on
+    data:
       entity_id: media_player.yamaha_main
-
+  mode: single
 - id: lights_off
   alias: Lights off
   trigger:
@@ -138,22 +142,64 @@
   action:
   - service: light.turn_off
     entity_id: all
-
-# Alert when Freezer is open for over 10 minutes
 - id: freezer_open_alert
   alias: Freezer Open Alert
   trigger:
     platform: state
     entity_id: binary_sensor.freezer_door
-    to: "on"
+    to: 'on'
     for: 00:10:00
   action:
-    - service: persistent_notification.create
-      data:
-        title: 'Freezer open for over 10 minutes'
-        message: 'Freezer open for over 10 minutes.'
-        notification_id: freezer_open_alert
-    - service: notify.email
-      data:
-        title: 'Freezer open for over 10 minutes'
-        message: 'Freezer open for over 10 minutes.'
+  - service: persistent_notification.create
+    data:
+      title: Freezer open for over 10 minutes
+      message: Freezer open for over 10 minutes.
+      notification_id: freezer_open_alert
+  - service: notify.email
+    data:
+      title: Freezer open for over 10 minutes
+      message: Freezer open for over 10 minutes.
+- id: '1607179755688'
+  alias: Turn off heating
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.heating_off_time
+  condition: []
+  action:
+  - service: climate.turn_off
+    data: {}
+    entity_id: climate.living_room
+  mode: single
+- id: '1607525870870'
+  alias: Sound Controller Pause/Resume Spotify
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: sound_controller
+      event: 1002
+  condition: '{{ is_state_attr(''media_player.yamaha_main'', ''source'', ''spotify'')
+    }}'
+  action:
+  - service: media_player.media_play_pause
+    data:
+      entity_id: media_player.yamaha_main
+  mode: single
+- id: '1607526213723'
+  alias: Sound Controller Mute/Unmute
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: sound_controller
+      event: 1002
+  condition: '{{ not is_state(''media_player.yamaha_main'', ''off'') and not is_state_attr(''media_player.yamaha_main'',
+    ''source'', ''spotify'') }}'
+  action:
+  - service: media_player.volume_mute
+    data:
+      entity_id: media_player.yamaha_main
+      is_volume_muted: '{{ is_state_attr(''media_player.yamaha_main'', ''is_volume_muted'',
+        false) }}'
+  mode: single
