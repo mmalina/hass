@@ -2,3 +2,5 @@ media_player.yamaha_main:
   friendly_name: Yamaha
 sensor.0x00158d0004873fc9_temperature:
   friendly_name: Bedroom Temperature
+automation.turn_off_heating:
+  icon: mdi:radiator-off
