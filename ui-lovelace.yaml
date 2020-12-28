@@ -2,67 +2,168 @@ title: Home
 views:
   - badges: []
     cards:
-      - entities:
-          - entity: light.center
-            toggle: true
-            type: 'custom:slider-entity-row'
-          - entity: light.kitchen_table
-            name: Table
-            toggle: true
-            type: 'custom:slider-entity-row'
-          - entity: light.bar
-            toggle: true
-            type: 'custom:slider-entity-row'
-          - entity: light.kitchen_desk
-            name: Hue Strip
-            toggle: true
-            type: 'custom:slider-entity-row'
-          - entity: light.hall
-        title: Light
-        type: entities
-      - type: custom:mini-graph-card
-        entities:
-          - sensor.outside_temperature
-        hours_to_show: 24
-        points_per_hour: 2
-        hour24: true
-        show:
-          extrema: true
+      - type: vertical-stack
+        cards:
+          - entities:
+              - entity: light.center
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.tv_wall
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.christmas_lights
+              - entity: light.kitchen_table
+                name: Table
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.kitchen_unit
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.bedroom_nightstand
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.hall
+              - entity: light.staircase
+                toggle: true
+                type: 'custom:slider-entity-row'
+              - entity: light.attic_lights
+                name: Attic
+                toggle: true
+                type: 'custom:slider-entity-row'
+            title: Light
+            type: entities
+          - entity: media_player.yamaha_main
+            type: media-control
+          - type: horizontal-stack
+            cards:
+              - type: button
+                name: 1
+                tap_action:
+                  action: call-service
+                  service: rest_command.yamaha_recall_preset
+                  service_data:
+                    num: 1
+              - type: button
+                name: 2
+                tap_action:
+                  action: call-service
+                  service: rest_command.yamaha_recall_preset
+                  service_data:
+                    num: 2
+              - type: button
+                name: 3
+                tap_action:
+                  action: call-service
+                  service: rest_command.yamaha_recall_preset
+                  service_data:
+                    num: 3
+              - type: button
+                name: 4
+                tap_action:
+                  action: call-service
+                  service: rest_command.yamaha_recall_preset
+                  service_data:
+                    num: 4
+              - type: button
+                name: 5
+                tap_action:
+                  action: call-service
+                  service: rest_command.yamaha_recall_preset
+                  service_data:
+                    num: 5
+          - type: media-control
+            entity: media_player.apple_tv_2
+      - type: vertical-stack
+        cards:
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.outside_temperature
+                name: Outside
+            hours_to_show: 24
+            points_per_hour: 2
+            hour24: true
+            show:
+              extrema: true
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.living_room_temperature
+                name: Living Room
+              - entity: sensor.staircase_temperature
+                name: Staircase
+              - color: grey
+                entity: sensor.heating_action
+                name: Heating
+                show_line: false
+                show_points: false
+                show_legend: true
+                y_axis: secondary
+            hours_to_show: 24
+            points_per_hour: 2
+            hour24: true
+            icon: 'mdi:thermometer'
+            show:
+              labels: true
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.bedroom_temperature
+                name: Bedroom
+            hours_to_show: 24
+            points_per_hour: 2
+            hour24: true
+            icon: 'mdi:thermometer'
+            show:
+              labels: true
+          - type: 'custom:mini-graph-card'
+            entities:
+              - entity: sensor.attic_temperature
+                name: Attic
+            hours_to_show: 24
+            points_per_hour: 2
+            decimals: 1
+            hour24: true
+            icon: 'mdi:thermometer'
+            show:
+              labels: true
+      - type: vertical-stack
+        cards:
+          - type: weather-forecast
+            entity: weather.dark_sky
+          - entity: climate.heating
+            toggle_entity: climate.heating
+            type: 'custom:simple-thermostat'
+            control: false
+            hide:
+              temperature: true
+              state: true
+            step_layout: row
+          - type: entities
+            entities:
+              - entity: automation.turn_off_heating
+              - entity: input_datetime.heating_off_time
+                name: At Time
+      - type: vertical-stack
+        cards:
+          - entities:
+              - person.martin
+            title: ''
+            type: entities
+          - type: entities
+            entities:
+              - entity: binary_sensor.main_door
+              - entity: binary_sensor.freezer_door
+    path: default_view
+    title: Home
+  - title: Misc
+    path: misc
+    badges: []
+    cards:
       - detail: 2
         entity: sensor.outside_temperature_delay
         name: Outside Temperature Delay
         type: sensor
-      - type: custom:mini-graph-card
+      - type: entities
         entities:
-          - sensor.living_room_temperature
-        hours_to_show: 24
-        points_per_hour: 2
-        hour24: true
-        icon: 'mdi:thermometer'
-        show:
-          extrema: true
-      - type: custom:mini-graph-card
-        entities:
-          - sensor.bedroom
-        hours_to_show: 24
-        points_per_hour: 2
-        decimals: 1
-        hour24: true
-        icon: 'mdi:thermometer'
-        show:
-          extrema: true
-      - type: weather-forecast
-        entity: weather.dark_sky
-      - entity: climate.living_room
-        type: 'custom:simple-thermostat'
-        control:
-          - hvac
-      - entity: media_player.yamaha_main
-        type: media-control
-      - entities:
-          - person.martin
-        title: ''
-        type: entities
+          - entity: remote.apple_tv_2
       - entities:
           - entity: switch.hdmi_4
             name: Apple TV
@@ -71,11 +172,3 @@ views:
         show_header_toggle: true
         title: HDMI CEC
         type: entities
-      - type: entity
-        entity: binary_sensor.main_door
-        name: Main Door
-      - type: entity
-        entity: binary_sensor.freezer_door
-        name: Freezer Door
-    path: default_view
-    title: Home
