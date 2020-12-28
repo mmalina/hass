@@ -48,7 +48,13 @@ sensor:
         friendly_name: Outside Temperature Delay
         value_template: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
         unit_of_measurement: Minutes
-        entity_id: sensor.time
+      heating_action:
+        value_template: >-
+          {% if states.climate.heating.attributes.hvac_action == 'heating' %}
+            1
+          {% else %}
+            0
+          {% endif %}
   - platform: onewire
     names:
       28-01160068adff: Hifi Corner
@@ -99,6 +105,9 @@ light:
     payload_on: "on"
     payload_off: "off"
     retain: false
+  - platform: switch
+    name: Christmas Lights
+    entity_id: switch.smart_plug
 
 switch:
   - platform: mqtt
@@ -127,6 +136,14 @@ homekit:
       - sensor.outside_temperature
       - sensor.living_room_temperature
       - climate.heating
+      - light.christmas_lights
+      - light.tv_wall
+      - light.staircase
+      - light.attic_lights
+      - sensor.attic_temperature
+      - sensor.bedroom_temperature
+      - light.kitchen_unit
+      - light.bedroom_nightstand
 
 device_tracker:
   - platform: unifi_direct
@@ -170,3 +187,7 @@ notify:
     password: !secret gmail_password
     recipient: anyberry@gmail.com
     sender_name: My Home Assistant
+
+rest_command:
+  yamaha_recall_preset:
+    url: "http://yamaha.local/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
