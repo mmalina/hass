@@ -30,3 +30,15 @@ volume_up_loop:
               volume_level: "{{ state_attr('media_player.yamaha_main', 'volume_level') + 0.02 }}"
           - delay:
               milliseconds: 50
+
+yamaha_set_speaker:
+  alias: Yamaha Set Speaker
+  sequence:
+    - service: rest_command.yamaha_set_speaker
+      data:
+        speaker: A
+        enable: "{{speakerA}}"
+    - service: rest_command.yamaha_set_speaker
+      data:
+        speaker: B
+        enable: "{{speakerB}}"

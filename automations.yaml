@@ -12,6 +12,14 @@
     data:
       entity_id: media_player.yamaha_main
       source: optical
+  - service: rest_command.yamaha_set_speaker
+    data:
+      speaker: A
+      enable: "true"
+  - service: rest_command.yamaha_set_speaker
+    data:
+      speaker: B
+      enable: "false"
 - alias: TV turned off
   id: tv_turned_off
   initial_state: 'on'

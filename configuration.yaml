@@ -98,24 +98,9 @@ light:
     entities:
       - light.bar_1
       - light.bar_2
-  - platform: mqtt
-    name: Hall
-    state_topic: "shellies/shelly1-93B03E/relay/0"
-    command_topic: "shellies/shelly1-93B03E/relay/0/command"
-    payload_on: "on"
-    payload_off: "off"
-    retain: false
   - platform: switch
     name: Christmas Lights
     entity_id: switch.smart_plug
-
-switch:
-  - platform: mqtt
-    name: Boiler
-    state_topic: "shellies/shelly1-93BFD3/relay/0"
-    command_topic: "shellies/shelly1-93BFD3/relay/0/command"
-    payload_on: "on"
-    payload_off: "off"
 
 climate:
   - platform: generic_thermostat
@@ -191,3 +176,5 @@ notify:
 rest_command:
   yamaha_recall_preset:
     url: "http://yamaha.local/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
+  yamaha_set_speaker:
+    url: "http://yamaha.local/YamahaExtendedControl/v1/system/setSpeaker{{speaker}}?enable={{enable}}"
