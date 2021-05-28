@@ -22,18 +22,17 @@ views:
               - entity: light.bedroom_nightstand
                 toggle: true
                 type: 'custom:slider-entity-row'
-              - entity: light.hall
-              - entity: light.staircase
+              - entity: light.hue_go
                 toggle: true
                 type: 'custom:slider-entity-row'
-              - entity: light.attic_lights
-                name: Attic
+              - entity: light.hall
+              - entity: light.staircase
                 toggle: true
                 type: 'custom:slider-entity-row'
             title: Light
             type: entities
           - entity: media_player.yamaha_main
-            type: media-control
+            type: 'custom:mini-media-player'
           - type: horizontal-stack
             cards:
               - type: button
@@ -71,6 +70,32 @@ views:
                   service: rest_command.yamaha_recall_preset
                   service_data:
                     num: 5
+          - type: horizontal-stack
+            cards:
+              - type: button
+                name: A
+                tap_action:
+                  action: call-service
+                  service: script.yamaha_set_speaker
+                  service_data:
+                    speakerA: 'true'
+                    speakerB: 'false'
+              - type: button
+                name: B
+                tap_action:
+                  action: call-service
+                  service: script.yamaha_set_speaker
+                  service_data:
+                    speakerA: 'false'
+                    speakerB: 'true'
+              - type: button
+                name: A+B
+                tap_action:
+                  action: call-service
+                  service: script.yamaha_set_speaker
+                  service_data:
+                    speakerA: 'true'
+                    speakerB: 'true'
           - type: media-control
             entity: media_player.apple_tv_2
       - type: vertical-stack
@@ -165,7 +190,7 @@ views:
         entities:
           - entity: remote.apple_tv_2
       - entities:
-          - entity: switch.hdmi_4
+          - entity: switch.hdmi_8
             name: Apple TV
           - entity: switch.hdmi_0
             name: Panasonic TV
