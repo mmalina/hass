@@ -124,11 +124,11 @@ homekit:
       - light.christmas_lights
       - light.tv_wall
       - light.staircase
-      - light.attic_lights
       - sensor.attic_temperature
       - sensor.bedroom_temperature
       - light.kitchen_unit
       - light.bedroom_nightstand
+      - light.hue_go
 
 device_tracker:
   - platform: unifi_direct

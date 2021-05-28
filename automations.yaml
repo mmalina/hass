@@ -1,6 +1,5 @@
-- alias: TV turned on
-  id: tv_turned_on
-  initial_state: 'on'
+- id: tv_turned_on
+  alias: TV turned on
   trigger:
   - platform: state
     entity_id: switch.hdmi_4
@@ -15,14 +14,15 @@
   - service: rest_command.yamaha_set_speaker
     data:
       speaker: A
-      enable: "true"
+      enable: 'true'
   - service: rest_command.yamaha_set_speaker
     data:
       speaker: B
-      enable: "false"
-- alias: TV turned off
-  id: tv_turned_off
+      enable: 'false'
   initial_state: 'on'
+  mode: single
+- id: tv_turned_off
+  alias: TV turned off
   trigger:
   - platform: state
     entity_id: switch.hdmi_4
@@ -32,6 +32,8 @@
     data:
       entity_id: media_player.yamaha_main
       source: spotify
+  initial_state: 'on'
+  mode: single
 - alias: Weekly full snapshot
   id: weekly_full_snapshot
   trigger:
@@ -214,7 +216,6 @@
       is_volume_muted: '{{ is_state_attr(''media_player.yamaha_main'', ''is_volume_muted'',
         false) }}'
   mode: single
-
 - id: nightstand_switch_all_off
   alias: Nightstand Switch All Off
   trigger:
@@ -225,8 +226,59 @@
       event: 2002
   condition:
   - condition: state
-    entity_id: light.bedroom_nightstand
-    state: "off"
+    entity_id: light.bedroom_lights
+    state: 'off'
   action:
   - service: light.turn_off
     entity_id: all
+
+- id: tasmota_on
+  alias: Tasmota On
+  initial_state: false
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: bedroom_nightstand_switch
+      event: 2001
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/tasmota1/POWER
+      payload: on
+
+- id: tasmota_off
+  alias: Tasmota Off
+  initial_state: false
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: bedroom_nightstand_switch
+      event: 2003
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/tasmota1/POWER
+      payload: off
+
+- id: tasmota_on_off
+  alias: Tasmota On Off
+  initial_state: false
+  trigger:
+    platform: event
+    event_type: deconz_event
+    event_data:
+      id: bedroom_nightstand_switch
+      event: 2002
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/tasmota1/POWER
+      payload: on
+  - delay:
+      seconds: 2
+  - service: mqtt.publish
+    data:
+      topic: cmnd/tasmota1/POWER
+      payload: off
