@@ -1,6 +1,6 @@
 secrets.yaml
 home-assistant.log
-home-assistant_v2.db
+home-assistant_v2.db*
 .DS_Store
 ._.DS_Store
 .HA_VERSION
