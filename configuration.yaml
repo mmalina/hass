@@ -55,9 +55,6 @@ sensor:
           {% else %}
             0
           {% endif %}
-  - platform: onewire
-    names:
-      28-01160068adff: Hifi Corner
 
 group: !include groups.yaml
 automation: !include automations.yaml
