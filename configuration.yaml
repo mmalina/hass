@@ -173,3 +173,30 @@ rest_command:
     url: "http://yamaha.local/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
   yamaha_set_speaker:
     url: "http://yamaha.local/YamahaExtendedControl/v1/system/setSpeaker{{speaker}}?enable={{enable}}"
+
+cover:
+  - platform: template
+    covers:
+      all_blinds:
+        device_class: shutter
+        open_cover:
+          service: mqtt.publish
+          data:
+            topic: cmnd/blinds/shutteropen
+        close_cover:
+          service: mqtt.publish
+          data:
+            topic: cmnd/blinds/shutterclose
+        stop_cover:
+          service: mqtt.publish
+          data:
+            topic: cmnd/blinds/shutterstop
+        position_template: "50"
+
+# cover:
+#   - platform: group
+#     name: all_blinds
+#     entities:
+#       - cover.blind1
+#       - cover.blind2
+#       - cover.blind3
