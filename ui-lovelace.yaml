@@ -4,35 +4,8 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - entities:
-              - entity: light.center
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.tv_wall
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.christmas_lights
-              - entity: light.kitchen_table
-                name: Table
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.kitchen_unit
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.bedroom_nightstand
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.hue_go
-                toggle: true
-                type: 'custom:slider-entity-row'
-              - entity: light.hall
-              - entity: light.staircase
-                toggle: true
-                type: 'custom:slider-entity-row'
-            title: Light
-            type: entities
           - entity: media_player.yamaha_main
-            type: 'custom:mini-media-player'
+            type: custom:mini-media-player
           - type: horizontal-stack
             cards:
               - type: button
@@ -98,9 +71,36 @@ views:
                     speakerB: 'true'
           - type: media-control
             entity: media_player.apple_tv_2
+          - entities:
+              - entity: light.center
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.tv_wall
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.christmas_lights
+              - entity: light.kitchen_table
+                name: Table
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.kitchen_unit
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.bedroom_nightstand
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.hue_go
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.hall
+              - entity: light.staircase
+                toggle: true
+                type: custom:slider-entity-row
+            title: Light
+            type: entities
       - type: vertical-stack
         cards:
-          - type: 'custom:mini-graph-card'
+          - type: custom:mini-graph-card
             entities:
               - entity: sensor.outside_temperature
                 name: Outside
@@ -109,12 +109,25 @@ views:
             hour24: true
             show:
               extrema: true
-          - type: 'custom:mini-graph-card'
+              fill: false
+          - type: custom:mini-graph-card
+            name: Inside
             entities:
               - entity: sensor.living_room_temperature
                 name: Living Room
+                state_adaptive_color: true
               - entity: sensor.staircase_temperature
                 name: Staircase
+                show_state: true
+                state_adaptive_color: true
+              - entity: sensor.bedroom_temperature
+                name: Bedroom
+                show_state: true
+                state_adaptive_color: true
+              - entity: sensor.attic_temperature
+                name: Attic
+                show_state: true
+                state_adaptive_color: true
               - color: grey
                 entity: sensor.heating_action
                 name: Heating
@@ -125,37 +138,30 @@ views:
             hours_to_show: 24
             points_per_hour: 2
             hour24: true
-            icon: 'mdi:thermometer'
+            icon: mdi:thermometer
             show:
-              labels: true
-          - type: 'custom:mini-graph-card'
-            entities:
-              - entity: sensor.bedroom_temperature
-                name: Bedroom
-            hours_to_show: 24
-            points_per_hour: 2
-            hour24: true
-            icon: 'mdi:thermometer'
-            show:
-              labels: true
-          - type: 'custom:mini-graph-card'
-            entities:
-              - entity: sensor.attic_temperature
-                name: Attic
-            hours_to_show: 24
-            points_per_hour: 2
-            decimals: 1
-            hour24: true
-            icon: 'mdi:thermometer'
-            show:
-              labels: true
+              legend: true
+              fill: false
+              extrema: true
       - type: vertical-stack
         cards:
           - type: weather-forecast
             entity: weather.dark_sky
+          - type: entities
+            entities:
+              - entity: cover.all_blinds
+                name: All Blinds
+              - type: divider
+              - entity: cover.blind1
+                name: Bedroom
+              - entity: cover.blind2
+                name: Living Room
+              - entity: cover.blind3
+                name: Kitchen
+            title: Blinds
           - entity: climate.heating
             toggle_entity: climate.heating
-            type: 'custom:simple-thermostat'
+            type: custom:simple-thermostat
             control: false
             hide:
               temperature: true
