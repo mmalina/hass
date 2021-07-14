@@ -60,10 +60,6 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 
-media_player:
-  - platform: yamaha_musiccast
-    host: yamaha.local
-
 # Checks for available updates
 # Note: This component will send some information about your system to
 # the developers to assist with development of Home Assistant.

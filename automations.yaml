@@ -6,10 +6,10 @@
     to: 'on'
   action:
   - service: media_player.turn_on
-    entity_id: media_player.yamaha_main
+    entity_id: media_player.yamaha
   - service: media_player.select_source
     data:
-      entity_id: media_player.yamaha_main
+      entity_id: media_player.yamaha
       source: optical
   - service: rest_command.yamaha_set_speaker
     data:
@@ -30,7 +30,7 @@
   action:
   - service: media_player.select_source
     data:
-      entity_id: media_player.yamaha_main
+      entity_id: media_player.yamaha
       source: spotify
   initial_state: 'on'
   mode: single
@@ -137,12 +137,12 @@
       event: 1002
   condition:
   - condition: state
-    entity_id: media_player.yamaha_main
+    entity_id: media_player.yamaha
     state: 'off'
   action:
   - service: media_player.turn_on
     data:
-      entity_id: media_player.yamaha_main
+      entity_id: media_player.yamaha
   mode: single
 - id: lights_off
   alias: Lights off
@@ -192,12 +192,12 @@
     event_data:
       id: sound_controller
       event: 1002
-  condition: '{{ is_state_attr(''media_player.yamaha_main'', ''source'', ''spotify'')
+  condition: '{{ is_state_attr(''media_player.yamaha'', ''source'', ''spotify'')
     }}'
   action:
   - service: media_player.media_play_pause
     data:
-      entity_id: media_player.yamaha_main
+      entity_id: media_player.yamaha
   mode: single
 - id: '1607526213723'
   alias: Sound Controller Mute/Unmute
@@ -207,13 +207,13 @@
     event_data:
       id: sound_controller
       event: 1002
-  condition: '{{ not is_state(''media_player.yamaha_main'', ''off'') and not is_state_attr(''media_player.yamaha_main'',
+  condition: '{{ not is_state(''media_player.yamaha'', ''off'') and not is_state_attr(''media_player.yamaha'',
     ''source'', ''spotify'') }}'
   action:
   - service: media_player.volume_mute
     data:
-      entity_id: media_player.yamaha_main
-      is_volume_muted: '{{ is_state_attr(''media_player.yamaha_main'', ''is_volume_muted'',
+      entity_id: media_player.yamaha
+      is_volume_muted: '{{ is_state_attr(''media_player.yamaha'', ''is_volume_muted'',
         false) }}'
   mode: single
 - id: nightstand_switch_all_off
