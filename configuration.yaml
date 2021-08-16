@@ -78,6 +78,7 @@ discovery:
 history:
 
 hdmi_cec:
+  host: 58c14403-pi-cec
   devices:
     0: TV
     1: Pi
