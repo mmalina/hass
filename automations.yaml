@@ -34,26 +34,6 @@
       source: spotify
   initial_state: 'on'
   mode: single
-- alias: Weekly full snapshot
-  id: weekly_full_snapshot
-  trigger:
-  - platform: time
-    at: '3:00:00'
-  condition:
-  - condition: time
-    weekday:
-    - mon
-  action:
-  - service: hassio.snapshot_full
-    data_template:
-      name: Automated full backup {{ now().strftime('%Y-%m-%d') }}
-  - delay:
-      minutes: 10
-  - service: hassio.addon_stdin
-    data:
-      addon: 7be23ff5_dropbox_sync
-      input:
-        command: upload
 - alias: Lights on in the evening
   id: lights_on_in_the_evening
   trigger:
