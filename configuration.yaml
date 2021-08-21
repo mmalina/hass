@@ -121,6 +121,7 @@ homekit:
       - light.kitchen_unit
       - light.bedroom_nightstand
       - light.hue_go
+      - switch.home
 
 device_tracker:
   - platform: unifi_direct
@@ -129,6 +130,13 @@ device_tracker:
     password: !secret unifi_password
     new_device_defaults:
       track_new_devices: false
+  - platform: mqtt
+    devices:
+      martin_mqtt: "location/martin"
+    qos: 1
+    payload_home: "home"
+    payload_not_home: "not home"
+    source_type: bluetooth
 
 lovelace:
   # mode: yaml
@@ -197,3 +205,23 @@ cover:
 #       - cover.blind1
 #       - cover.blind2
 #       - cover.blind3
+
+switch:
+  - platform: template
+    switches:
+      home:
+        friendly_name: Home
+        turn_on:
+          service: mqtt.publish
+          data:
+            topic: location/martin
+            payload: "home"
+            qos: 1
+            retain: 1
+        turn_off:
+          service: mqtt.publish
+          data:
+            topic: location/martin
+            payload: "not home"
+            qos: 1
+            retain: 1
