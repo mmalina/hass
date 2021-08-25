@@ -19,6 +19,18 @@
     data:
       speaker: B
       enable: 'false'
+  - condition: time
+    after: '10:00'
+    before: '12:00'
+  - device_id: ec2fe7d396cef72ecca9b83e7419847e
+    domain: cover
+    entity_id: cover.blind2
+    type: set_position
+    position: 0
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.yamaha
+      volume_level: 0.50
   initial_state: 'on'
   mode: single
 - id: tv_turned_off
@@ -32,6 +44,14 @@
     data:
       entity_id: media_player.yamaha
       source: spotify
+  - condition: time
+    after: '11:00'
+    before: '13:00'
+  - device_id: ec2fe7d396cef72ecca9b83e7419847e
+    domain: cover
+    entity_id: cover.blind2
+    type: set_position
+    position: 100
   initial_state: 'on'
   mode: single
 - alias: Lights on in the evening
@@ -172,8 +192,7 @@
     event_data:
       id: sound_controller
       event: 1002
-  condition: '{{ is_state_attr(''media_player.yamaha'', ''source'', ''spotify'')
-    }}'
+  condition: '{{ is_state_attr(''media_player.yamaha'', ''source'', ''spotify'') }}'
   action:
   - service: media_player.media_play_pause
     data:
@@ -211,7 +230,6 @@
   action:
   - service: light.turn_off
     entity_id: all
-
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
@@ -225,8 +243,7 @@
   - service: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
-      payload: on
-
+      payload: true
 - id: tasmota_off
   alias: Tasmota Off
   initial_state: false
@@ -240,8 +257,7 @@
   - service: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
-      payload: off
-
+      payload: false
 - id: tasmota_on_off
   alias: Tasmota On Off
   initial_state: false
@@ -255,10 +271,10 @@
   - service: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
-      payload: on
+      payload: true
   - delay:
       seconds: 2
   - service: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
-      payload: off
+      payload: false
