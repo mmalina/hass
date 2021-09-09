@@ -122,6 +122,9 @@ homekit:
       - light.bedroom_nightstand
       - light.hue_go
       - switch.home
+      - cover.blind1
+      - cover.blind2
+      - cover.blind3
 
 device_tracker:
   - platform: unifi_direct
