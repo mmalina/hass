@@ -19,18 +19,33 @@
     data:
       speaker: B
       enable: 'false'
-  - condition: time
-    after: '10:00'
-    before: '12:00'
-  - device_id: ec2fe7d396cef72ecca9b83e7419847e
-    domain: cover
-    entity_id: cover.blind2
-    type: set_position
-    position: 0
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.yamaha
-      volume_level: 0.50
+  - choose:
+    - conditions:
+      - condition: time
+        after: '10:00:00'
+        before: '12:00:00'
+      sequence:
+      - device_id: ec2fe7d396cef72ecca9b83e7419847e
+        domain: cover
+        entity_id: cover.blind2
+        type: set_position
+        position: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: media_player.yamaha
+        attribute: volume_level
+        below: 0.5
+      sequence:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.yamaha
+          volume_level: 0.5
   initial_state: 'on'
   mode: single
 - id: tv_turned_off
@@ -230,6 +245,31 @@
   action:
   - service: light.turn_off
     entity_id: all
+- id: nightstand_switch_good_morning
+  alias: Nightstand Switch Good Morning
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: bedroom_nightstand_switch
+      event: 2002
+  condition:
+  - condition: template
+    value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'') |
+      list | count  == 0 }}
+
+      '
+  - condition: time
+    after: 05:30:00
+    before: '10:00:00'
+  action:
+  - service: cover.open_cover
+    entity_id: cover.all_blinds
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_unit
+      brightness_pct: 70
+  mode: single
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
