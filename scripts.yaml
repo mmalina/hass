@@ -42,3 +42,15 @@ yamaha_set_speaker:
       data:
         speaker: B
         enable: "{{speakerB}}"
+
+apple_tv_sleep:
+  alias: "Apple TV Sleep"
+  sequence:
+    - service: remote.send_command
+      target:
+        entity_id: remote.apple_tv_2
+      data:
+        delay_secs: 1
+        command:
+          - home_hold
+          - select

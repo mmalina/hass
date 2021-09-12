@@ -231,7 +231,7 @@
         false) }}'
   mode: single
 - id: nightstand_switch_all_off
-  alias: Nightstand Switch All Off
+  alias: Nightstand Switch Off
   trigger:
     platform: event
     event_type: deconz_event
@@ -242,34 +242,28 @@
   - condition: state
     entity_id: light.bedroom_lights
     state: 'off'
+    for:
+      seconds: 1
   action:
-  - service: light.turn_off
-    entity_id: all
-- id: nightstand_switch_good_morning
-  alias: Nightstand Switch Good Morning
-  trigger:
-  - platform: event
-    event_type: deconz_event
-    event_data:
-      id: bedroom_nightstand_switch
-      event: 2002
-  condition:
-  - condition: template
-    value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'') |
-      list | count  == 0 }}
-
-      '
-  - condition: time
-    after: 05:30:00
-    before: '10:00:00'
-  action:
-  - service: cover.open_cover
-    entity_id: cover.all_blinds
-  - service: light.turn_on
-    data:
-      entity_id: light.kitchen_unit
-      brightness_pct: 70
-  mode: single
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'') |
+          list | count > 0 }}'
+      sequence:
+      - service: light.turn_off
+        entity_id: all
+    - conditions:
+      - condition: time
+        after: 05:30:00
+        before: '10:00:00'
+      sequence:
+      - service: cover.open_cover
+        entity_id: cover.all_blinds
+      - service: light.turn_on
+        data:
+          entity_id: light.kitchen_unit
+          brightness_pct: 70
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
@@ -318,3 +312,16 @@
     data:
       topic: cmnd/tasmota1/POWER
       payload: false
+- id: airplay_turned_off
+  alias: Airplay Turned Off
+  initial_state: true
+  trigger:
+  - platform: template
+    value_template: "{{ not is_state_attr('media_player.apple_tv_2', 'app_id', 'com.apple.TVAirPlay') }}"
+  action:
+  - condition: time
+    after: '11:00'
+    before: '13:00'
+  - service: script.turn_on
+    data:
+      entity_id: script.apple_tv_sleep
