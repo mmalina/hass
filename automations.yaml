@@ -264,6 +264,37 @@
         data:
           entity_id: light.kitchen_unit
           brightness_pct: 70
+      - service: media_player.turn_on
+        entity_id: media_player.yamaha
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.yamaha
+          source: server
+      - service: rest_command.yamaha_set_speaker
+        data:
+          speaker: A
+          enable: 'true'
+      - service: rest_command.yamaha_set_speaker
+        data:
+          speaker: B
+          enable: 'true'
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 8
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.yamaha
+          volume_level: 0.4
+      - service: tts.google_say
+        data:
+          entity_id: media_player.yamaha
+          message: >
+            "Good morning Martin!"
+            "Currently it's {{states('sensor.outside_temperature')}} outside"
+            "and {{states('sensor.living_room_temperature')}} inside."
+            "Today's high will be {{ state_attr('weather.dark_sky', 'forecast')[1]['temperature'] }} degrees."
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
