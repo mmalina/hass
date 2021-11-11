@@ -4,7 +4,7 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - entity: media_player.yamaha_main
+          - entity: media_player.yamaha
             type: custom:mini-media-player
           - type: horizontal-stack
             cards:
@@ -175,7 +175,8 @@ views:
       - type: vertical-stack
         cards:
           - entities:
-              - person.martin
+              - entity: person.martin
+              - entity: switch.home
             title: ''
             type: entities
           - type: entities
@@ -196,10 +197,12 @@ views:
         entities:
           - entity: remote.apple_tv_2
       - entities:
-          - entity: switch.hdmi_8
+          - entity: switch.hdmi_4
             name: Apple TV
           - entity: switch.hdmi_0
             name: Panasonic TV
         show_header_toggle: true
         title: HDMI CEC
         type: entities
+      - type: media-control
+        entity: media_player.yamaha
