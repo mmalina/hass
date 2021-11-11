@@ -233,7 +233,7 @@
 - id: nightstand_switch_all_off
   alias: Nightstand Switch Off
   trigger:
-    platform: event
+  - platform: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
@@ -248,8 +248,8 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'') |
-          list | count > 0 }}'
+        value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'')
+          | list | count > 0 }}'
       sequence:
       - service: light.turn_off
         entity_id: all
@@ -286,15 +286,17 @@
       - service: media_player.volume_set
         data:
           entity_id: media_player.yamaha
-          volume_level: 0.4
+          volume_level: 0.5
       - service: tts.google_say
         data:
           entity_id: media_player.yamaha
-          message: >
-            "Good morning Martin!"
-            "Currently it's {{states('sensor.outside_temperature')}} outside"
-            "and {{states('sensor.living_room_temperature')}} inside."
-            "Today's high will be {{ state_attr('weather.dark_sky', 'forecast')[1]['temperature'] }} degrees."
+          message: '"Good morning Martin!" "It''s currently {{states(''sensor.outside_temperature'')}}
+            outside" "and {{states(''sensor.living_room_temperature'')}} inside."
+            "Today''s high will be {{ state_attr(''weather.dark_sky'', ''forecast'')[0][''temperature'']
+            }} degrees."
+
+            '
+  mode: single
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
@@ -348,7 +350,8 @@
   initial_state: true
   trigger:
   - platform: template
-    value_template: "{{ not is_state_attr('media_player.apple_tv_2', 'app_id', 'com.apple.TVAirPlay') }}"
+    value_template: '{{ not is_state_attr(''media_player.apple_tv_2'', ''app_id'',
+      ''com.apple.TVAirPlay'') }}'
   action:
   - condition: time
     after: '11:00'
