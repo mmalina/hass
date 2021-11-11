@@ -256,7 +256,7 @@
     - conditions:
       - condition: time
         after: 05:30:00
-        before: '10:00:00'
+        before: '12:00:00'
       sequence:
       - service: cover.open_cover
         entity_id: cover.all_blinds
