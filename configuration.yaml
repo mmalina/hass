@@ -228,6 +228,15 @@ switch:
             payload: "not home"
             qos: 1
             retain: 1
+      heating_on:
+        friendly_name: Heating on/off status
+        value_template: "{{ not is_state('climate.heating', 'off') }}"
+        turn_on:
+          service: climate.turn_on
+          entity_id: climate.heating
+        turn_off:
+          service: climate.turn_off
+          entity_id: climate.heating
 
 tts:
   - platform: google_translate
