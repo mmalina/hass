@@ -264,6 +264,15 @@
         data:
           entity_id: light.kitchen_unit
           brightness_pct: 70
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.heat_in_the_morning
+            state: "on"
+          sequence:
+          - service: climate.turn_on
+            data:
+              entity_id: climate.heating
       - service: media_player.turn_on
         entity_id: media_player.yamaha
       - service: media_player.select_source

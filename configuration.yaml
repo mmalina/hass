@@ -241,3 +241,9 @@ switch:
 tts:
   - platform: google_translate
     service_name: google_say
+
+input_boolean:
+  heat_in_the_morning:
+    name: Heat in the morning
+    initial: false
+    icon: mdi:radiator

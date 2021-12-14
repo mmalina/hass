@@ -145,6 +145,7 @@ views:
               state: true
           - type: entities
             entities:
+              - entity: input_boolean.heat_in_the_morning
               - entity: automation.turn_off_heating
               - entity: input_datetime.heating_off_time
                 name: At Time
