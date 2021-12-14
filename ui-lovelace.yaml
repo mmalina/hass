@@ -6,69 +6,35 @@ views:
         cards:
           - entity: media_player.yamaha
             type: custom:mini-media-player
-          - type: horizontal-stack
-            cards:
-              - type: button
-                name: 1
-                tap_action:
-                  action: call-service
-                  service: rest_command.yamaha_recall_preset
-                  service_data:
-                    num: 1
-              - type: button
-                name: 2
-                tap_action:
-                  action: call-service
-                  service: rest_command.yamaha_recall_preset
-                  service_data:
-                    num: 2
-              - type: button
-                name: 3
-                tap_action:
-                  action: call-service
-                  service: rest_command.yamaha_recall_preset
-                  service_data:
-                    num: 3
-              - type: button
-                name: 4
-                tap_action:
-                  action: call-service
-                  service: rest_command.yamaha_recall_preset
-                  service_data:
-                    num: 4
-              - type: button
-                name: 5
-                tap_action:
-                  action: call-service
-                  service: rest_command.yamaha_recall_preset
-                  service_data:
-                    num: 5
-          - type: horizontal-stack
-            cards:
-              - type: button
-                name: A
-                tap_action:
-                  action: call-service
-                  service: script.yamaha_set_speaker
-                  service_data:
+            max_volume: 60
+            shortcuts:
+              columns: 3
+              column_height: 30
+              buttons:
+                - name: A
+                  type: service
+                  id: script.yamaha_set_speaker
+                  data:
                     speakerA: 'true'
                     speakerB: 'false'
-              - type: button
-                name: B
-                tap_action:
-                  action: call-service
-                  service: script.yamaha_set_speaker
-                  service_data:
+                - name: B
+                  type: service
+                  id: script.yamaha_set_speaker
+                  data:
                     speakerA: 'false'
                     speakerB: 'true'
-              - type: button
-                name: A+B
-                tap_action:
-                  action: call-service
-                  service: script.yamaha_set_speaker
-                  service_data:
+                - name: A+B
+                  type: service
+                  id: script.yamaha_set_speaker
+                  data:
                     speakerA: 'true'
                     speakerB: 'true'
+                - name: Worldwide FM
+                  type: playlist
+                  id: presets:1
+                - name: Radio Wave
+                  type: playlist
+                  id: presets:2
           - type: media-control
             entity: media_player.apple_tv_2
           - entities:
@@ -116,32 +82,38 @@ views:
               - entity: sensor.living_room_temperature
                 name: Living Room
                 state_adaptive_color: true
+                show_fill: false
               - entity: sensor.staircase_temperature
                 name: Staircase
                 show_state: true
                 state_adaptive_color: true
+                show_fill: false
               - entity: sensor.bedroom_temperature
                 name: Bedroom
                 show_state: true
                 state_adaptive_color: true
+                show_fill: false
               - entity: sensor.attic_temperature
                 name: Attic
                 show_state: true
                 state_adaptive_color: true
+                show_fill: false
               - color: grey
                 entity: sensor.heating_action
                 name: Heating
                 show_line: false
                 show_points: false
                 show_legend: true
+                show_fill: true
                 y_axis: secondary
+                smoothing: false
             hours_to_show: 24
             points_per_hour: 2
             hour24: true
             icon: mdi:thermometer
             show:
               legend: true
-              fill: false
+              fill: true
               extrema: true
       - type: vertical-stack
         cards:
@@ -160,13 +132,17 @@ views:
                 name: Kitchen
             title: Blinds
           - entity: climate.heating
-            toggle_entity: climate.heating
             type: custom:simple-thermostat
+            header:
+              toggle:
+                entity: switch.heating_on
+            layout:
+              step: row
             control: false
+            step_layout: row
             hide:
               temperature: true
               state: true
-            step_layout: row
           - type: entities
             entities:
               - entity: automation.turn_off_heating
