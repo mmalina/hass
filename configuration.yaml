@@ -125,6 +125,8 @@ homekit:
       - cover.blind1
       - cover.blind2
       - cover.blind3
+      - light.tv_lamp
+      - light.bias_lighting
 
 device_tracker:
   # - platform: unifi_direct
