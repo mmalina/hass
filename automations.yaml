@@ -102,6 +102,11 @@
       brightness_pct: 50
   - service: light.turn_on
     data:
+      entity_id: light.tv_lamp
+      transition: 1200
+      brightness_pct: 50
+  - service: light.turn_on
+    data:
       entity_id: light.christmas_lights
 - id: sound_controller_volume_down
   alias: Sound Controller Volume Down
