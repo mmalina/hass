@@ -48,7 +48,7 @@ apple_tv_sleep:
   sequence:
     - service: remote.send_command
       target:
-        entity_id: remote.apple_tv_2
+        entity_id: remote.apple_tv
       data:
         delay_secs: 1
         command:

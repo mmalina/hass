@@ -379,7 +379,7 @@
   initial_state: true
   trigger:
   - platform: template
-    value_template: '{{ not is_state_attr(''media_player.apple_tv_2'', ''app_id'',
+    value_template: '{{ not is_state_attr(''media_player.apple_tv'', ''app_id'',
       ''com.apple.TVAirPlay'') }}'
   action:
   - condition: time
