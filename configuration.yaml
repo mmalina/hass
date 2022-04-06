@@ -249,3 +249,9 @@ input_boolean:
     name: Heat in the morning
     initial: false
     icon: mdi:radiator
+
+logger:
+  default: info
+  logs:
+    pydeconz: debug
+    homeassistant.components.deconz: debug
