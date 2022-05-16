@@ -37,7 +37,7 @@ sensor:
       - time
   - platform: rest
     name: Outside Temperature
-    resource: http://local-zabiny-temp:8000/
+    resource: http://local-zabiny-temp/temp.json
     unit_of_measurement: "°C"
     value_template: '{{ value_json.temp }}'
     json_attributes:
