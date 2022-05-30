@@ -6,7 +6,7 @@ views:
         cards:
           - entity: media_player.yamaha
             type: custom:mini-media-player
-            max_volume: 60
+            max_volume: '60'
             shortcuts:
               columns: 3
               column_height: 30
@@ -35,13 +35,14 @@ views:
                 - name: Radio Wave
                   type: playlist
                   id: presets:2
-          - type: media-control
-            entity: media_player.apple_tv_2
           - entities:
               - entity: light.center
                 toggle: true
                 type: custom:slider-entity-row
               - entity: light.tv_wall
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.tv_lamp
                 toggle: true
                 type: custom:slider-entity-row
               - entity: light.christmas_lights
@@ -53,6 +54,9 @@ views:
                 toggle: true
                 type: custom:slider-entity-row
               - entity: light.bedroom_nightstand
+                toggle: true
+                type: custom:slider-entity-row
+              - entity: light.bias_lighting
                 toggle: true
                 type: custom:slider-entity-row
               - entity: light.hue_go
@@ -131,6 +135,44 @@ views:
               - entity: cover.blind3
                 name: Kitchen
             title: Blinds
+          - type: horizontal-stack
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                name: Base Position
+                show_state: true
+                icon: mdi:window-shutter
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.blinds_base_position
+                icon_height: 24px
+              - show_name: false
+                show_icon: true
+                type: button
+                name: Base Position
+                show_state: true
+                icon: mdi:arrow-up
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.blinds_step_up
+                icon_height: 24px
+              - show_name: false
+                show_icon: true
+                type: button
+                name: Base Position
+                show_state: true
+                icon: mdi:arrow-down
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.blinds_step_down
+                icon_height: 24px
           - entity: climate.heating
             type: custom:simple-thermostat
             header:
@@ -172,7 +214,7 @@ views:
         type: sensor
       - type: entities
         entities:
-          - entity: remote.apple_tv_2
+          - entity: remote.living_room_2
       - entities:
           - entity: switch.hdmi_4
             name: Apple TV
