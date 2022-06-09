@@ -121,20 +121,14 @@ homekit:
       - light.tv_lamp
       - light.bias_lighting
 
-device_tracker:
-  # - platform: unifi_direct
-  #   host: 192.168.1.39
-  #   username: !secret unifi_username
-  #   password: !secret unifi_password
-  #   new_device_defaults:
-  #     track_new_devices: false
-  - platform: mqtt
-    devices:
-      martin_mqtt: "location/martin"
-    qos: 1
-    payload_home: "home"
-    payload_not_home: "not home"
-    source_type: bluetooth
+mqtt:
+  device_tracker:
+    - name: "martin_mqtt"
+      state_topic: "location/martin"
+      qos: 1
+      payload_home: "home"
+      payload_not_home: "not home"
+      source_type: bluetooth
 
 lovelace:
   # mode: yaml
