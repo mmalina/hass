@@ -68,19 +68,19 @@ blinds_base_position:
     continue_on_timeout: false
   - service: mqtt.publish
     data:
-      topic: cmnd/blinds/backlog
-      payload: shutteropen; delay 11; shutterstop
+      topic: cmnd/blinds/shuttertilt1
+      payload: open
 blinds_step_up:
   alias: Blinds Step Up
   sequence:
   - service: mqtt.publish
     data:
-      topic: cmnd/blinds/backlog
-      payload: shutteropen; delay 0.1; shutterstop
+      topic: cmnd/blinds/shuttertiltchange
+      payload: 15
 blinds_step_down:
   alias: Blinds Step Down
   sequence:
   - service: mqtt.publish
     data:
-      topic: cmnd/blinds/backlog
-      payload: shutterclose; delay 0.1; shutterstop
+      topic: cmnd/blinds/shuttertiltchange
+      payload: -15
