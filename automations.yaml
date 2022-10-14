@@ -2,7 +2,7 @@
   alias: TV turned on
   trigger:
   - platform: state
-    entity_id: switch.hdmi_4
+    entity_id: switch.hdmi_8
     to: 'on'
   action:
   - service: media_player.turn_on
@@ -52,7 +52,7 @@
   alias: TV turned off
   trigger:
   - platform: state
-    entity_id: switch.hdmi_4
+    entity_id: switch.hdmi_8
     to: 'off'
   action:
   - service: media_player.select_source
