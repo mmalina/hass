@@ -84,3 +84,10 @@ blinds_step_down:
     data:
       topic: cmnd/blinds/shuttertiltchange
       payload: -15
+blinds_closed:
+  alias: Blinds Closed
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/blinds/shuttertilt1
+      payload: close
