@@ -87,11 +87,6 @@ views:
                 name: Living Room
                 state_adaptive_color: true
                 show_fill: false
-              - entity: sensor.staircase_temperature
-                name: Staircase
-                show_state: true
-                state_adaptive_color: true
-                show_fill: false
               - entity: sensor.bedroom_temperature
                 name: Bedroom
                 show_state: true
@@ -119,6 +114,31 @@ views:
               legend: true
               fill: true
               extrema: true
+          - type: custom:mini-graph-card
+            name: Humidity
+            entities:
+              - entity: sensor.living_room_humidity
+                name: Living Room
+                state_adaptive_color: true
+                show_fill: false
+              - entity: sensor.bedroom_humidity
+                name: Bedroom
+                show_state: true
+                state_adaptive_color: true
+                show_fill: false
+              - entity: sensor.attic_humidity
+                name: Attic
+                show_state: true
+                state_adaptive_color: true
+                show_fill: false
+            hours_to_show: 24
+            points_per_hour: 2
+            hour24: true
+            icon: mdi:water-outline
+            show:
+              legend: true
+              fill: true
+              extrema: true
       - type: vertical-stack
         cards:
           - type: weather-forecast
@@ -142,7 +162,7 @@ views:
                 type: button
                 name: Base Position
                 show_state: true
-                icon: mdi:window-shutter
+                icon: mdi:window-shutter-open
                 tap_action:
                   action: call-service
                   service: script.turn_on
@@ -152,7 +172,7 @@ views:
               - show_name: false
                 show_icon: true
                 type: button
-                name: Base Position
+                name: Step Up
                 show_state: true
                 icon: mdi:arrow-up
                 tap_action:
@@ -164,7 +184,7 @@ views:
               - show_name: false
                 show_icon: true
                 type: button
-                name: Base Position
+                name: Step Down
                 show_state: true
                 icon: mdi:arrow-down
                 tap_action:
@@ -172,6 +192,18 @@ views:
                   service: script.turn_on
                   service_data:
                     entity_id: script.blinds_step_down
+                icon_height: 24px
+              - show_name: false
+                show_icon: true
+                type: button
+                name: Close
+                show_state: true
+                icon: mdi:window-shutter
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.blinds_closed
                 icon_height: 24px
           - entity: climate.heating
             type: custom:simple-thermostat
