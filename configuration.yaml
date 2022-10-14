@@ -237,8 +237,3 @@ input_boolean:
     initial: false
     icon: mdi:radiator
 
-logger:
-  default: info
-  logs:
-    pydeconz: debug
-    homeassistant.components.deconz: debug
