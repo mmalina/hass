@@ -70,13 +70,6 @@ discovery:
 # Enables support for tracking state changes over time
 history:
 
-hdmi_cec:
-  host: 58c14403-pi-cec
-  devices:
-    0: TV
-    1: Pi
-    2: Apple TV
-
 light:
   - platform: group
     name: Bar
@@ -242,3 +235,7 @@ input_boolean:
     initial: false
     icon: mdi:radiator
 
+template:
+  - binary_sensor:
+      - name: TV On
+        state: "{{ states('sensor.tv_corner_power')|int > 20 }}"
