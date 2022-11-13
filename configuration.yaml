@@ -120,6 +120,11 @@ homekit:
       - cover.blind3
       - light.tv_lamp
       - light.bias_lighting
+      - media_player.yamaha
+  entity_config:
+    media_player.yamaha:
+      feature_list:
+        - feature: on_off
 
 mqtt:
   device_tracker:
