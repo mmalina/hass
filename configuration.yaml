@@ -42,6 +42,8 @@ sensor:
     value_template: '{{ value_json.temp }}'
     json_attributes:
       - timestamp
+    device_class: temperature
+    state_class: measurement
   - platform: template
     sensors:
       outside_temperature_delay:
