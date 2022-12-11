@@ -241,3 +241,5 @@ template:
   - binary_sensor:
       - name: TV On
         state: "{{ states('sensor.tv_corner_power')|int > 20 }}"
+
+scene: !include scenes.yaml

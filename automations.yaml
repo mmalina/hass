@@ -80,49 +80,39 @@
     entity_id: person.martin
     state: home
   action:
-  - service: light.turn_on
+  - service: scene.turn_on
+    target:
+      entity_id: scene.normal
     data:
-      entity_id: light.center
       transition: 1200
-      brightness_pct: 50
   - service: light.turn_on
     data:
-      entity_id: light.kitchen_table
-      transition: 1200
-      brightness: 178
-  - service: light.turn_on
-    data:
-      entity_id: light.kitchen_unit
-      transition: 1200
-      brightness: 178
-  - service: light.turn_on
-    data:
-      entity_id: light.tv_wall
-      transition: 1200
-      brightness_pct: 50
-  - service: light.turn_on
-    data:
-      entity_id: light.tv_lamp
-      transition: 1200
-      brightness_pct: 50
-  - service: light.turn_on
-    data:
-      entity_id: light.christmas_lights
-  - service: light.turn_on
-    data:
-      entity_id: light.bias_lighting
       transition: 600
-      brightness: 178
+      brightness_pct: 68
+    target:
+      area_id: bedroom
+- id: lights_on_arrival
+  alias: Lights On Arrival
+  trigger:
+  - platform: state
+    entity_id: person.martin
+    to: home
+  condition:
+  - condition: sun
+    after: sunset
+    after_offset: "-00:10:00"
+    before: sunrise
+  action:
+  - service: light.turn_on
+    entity_id: light.hall
+  - service: scene.turn_on
+    target:
+      entity_id: scene.normal
   - service: light.turn_on
     data:
-      entity_id: light.hue_go
-      transition: 600
-      brightness: 178
-  - service: light.turn_on
-    data:
-      entity_id: light.bedroom_nightstand
-      transition: 600
-      brightness: 178
+      brightness_pct: 68
+    target:
+      area_id: bedroom
 - id: sound_controller_volume_down
   alias: Sound Controller Volume Down
   trigger:
