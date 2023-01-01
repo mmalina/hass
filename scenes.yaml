@@ -2,13 +2,13 @@
   entities:
     light.center:
       state: "on"
-      brightness_pct: 50
+      brightness: 127
     light.tv_wall:
       state: "on"
-      brightness_pct: 50
+      brightness: 127
     light.tv_lamp:
       state: "on"
-      brightness_pct: 50
+      brightness: 127
     light.kitchen_table:
       state: "on"
       brightness: 178
