@@ -311,7 +311,7 @@
           entity_id: media_player.yamaha
           message: '"Good morning Martin!" "It''s currently {{states(''sensor.outside_temperature'')}}
             outside" "and {{states(''sensor.living_room_temperature'')}} inside."
-            "Today''s high will be {{ state_attr(''weather.dark_sky'', ''forecast'')[0][''temperature'']
+            "Today''s high will be {{ state_attr(''weather.forecast'', ''forecast'')[0][''temperature'']
             }} degrees."
 
             '

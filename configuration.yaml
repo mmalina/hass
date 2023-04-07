@@ -147,11 +147,6 @@ lovelace:
 # Activate the configuration editor
 config:
 
-weather:
-  - platform: darksky
-    mode: daily
-    api_key: !secret darksky_api_key
-
 notify:
   - name: email
     # sender: no-reply@homeassistant.local
