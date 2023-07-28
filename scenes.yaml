@@ -15,4 +15,5 @@
     light.kitchen_unit:
       state: "on"
       brightness: 178
+      color_temp_kelvin: 2700
     light.christmas_lights: "on"
