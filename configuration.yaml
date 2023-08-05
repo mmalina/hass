@@ -65,11 +65,6 @@ script: !include scripts.yaml
 
 system_health:
 
-# Discover some devices automatically
-discovery:
-  ignore:
-    - yamaha
-
 # Enables support for tracking state changes over time
 history:
 
