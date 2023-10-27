@@ -54,6 +54,7 @@ apple_tv_sleep:
       command:
       - home_hold
       - select
+      - select
 blinds_base_position:
   alias: Blinds Base Position
   sequence:
