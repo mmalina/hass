@@ -228,6 +228,6 @@ input_boolean:
 template:
   - binary_sensor:
       - name: TV On
-        state: "{{ states('sensor.tv_corner_power')|int > 20 }}"
+        state: "{{ states('sensor.tv_corner_power')|int > 40 }}"
 
 scene: !include scenes.yaml
