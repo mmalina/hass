@@ -111,6 +111,8 @@ homekit:
       - cover.blind3
       - light.tv_lamp
       - light.bias_lighting
+      - light.kitchen_table
+      - light.center
 
 mqtt:
   device_tracker:

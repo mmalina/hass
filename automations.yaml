@@ -30,6 +30,7 @@
         entity_id: cover.blind2
         type: set_position
         position: 0
+        enabled: false
   - delay:
       hours: 0
       minutes: 0
@@ -100,7 +101,7 @@
   condition:
   - condition: sun
     after: sunset
-    after_offset: "-00:10:00"
+    after_offset: -00:10:00
     before: sunrise
   action:
   - service: light.turn_on
@@ -279,7 +280,7 @@
         - conditions:
           - condition: state
             entity_id: input_boolean.heat_in_the_morning
-            state: "on"
+            state: 'on'
           sequence:
           - service: climate.turn_on
             data:
@@ -334,7 +335,7 @@
   action:
   - service: light.turn_off
     target:
-      area_id: "{{ area_id('Living Room') }}"
+      area_id: '{{ area_id(''Living Room'') }}'
   - service: light.turn_on
     data:
       entity_id: light.bedroom_lights
@@ -392,8 +393,8 @@
   initial_state: true
   trigger:
   - platform: template
-    value_template: '{{ not is_state_attr(''media_player.apple_tv'', ''app_id'',
-      ''com.apple.TVAirPlay'') }}'
+    value_template: '{{ not is_state_attr(''media_player.apple_tv'', ''app_id'', ''com.apple.TVAirPlay'')
+      }}'
   action:
   - condition: time
     after: '11:00'
