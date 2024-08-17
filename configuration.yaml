@@ -165,15 +165,15 @@ cover:
       all_blinds:
         device_class: shutter
         open_cover:
-          service: mqtt.publish
+          action: mqtt.publish
           data:
             topic: cmnd/blinds/shutteropen
         close_cover:
-          service: mqtt.publish
+          action: mqtt.publish
           data:
             topic: cmnd/blinds/shutterclose
         stop_cover:
-          service: mqtt.publish
+          action: mqtt.publish
           data:
             topic: cmnd/blinds/shutterstop
         position_template: "50"
@@ -192,14 +192,14 @@ switch:
       home:
         friendly_name: Home
         turn_on:
-          service: mqtt.publish
+          action: mqtt.publish
           data:
             topic: location/martin
             payload: "home"
             qos: 1
             retain: 1
         turn_off:
-          service: mqtt.publish
+          action: mqtt.publish
           data:
             topic: location/martin
             payload: "not home"
@@ -209,10 +209,10 @@ switch:
         friendly_name: Heating on/off status
         value_template: "{{ not is_state('climate.heating', 'off') }}"
         turn_on:
-          service: climate.turn_on
+          action: climate.turn_on
           entity_id: climate.heating
         turn_off:
-          service: climate.turn_off
+          action: climate.turn_off
           entity_id: climate.heating
 
 tts:

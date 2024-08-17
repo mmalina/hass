@@ -2,13 +2,13 @@ volume_down_loop:
   alias: Volume Down Loop
   mode: single
   sequence:
-  - service: script.turn_off
+  - action: script.turn_off
     data:
       entity_id: script.volume_up_loop
   - repeat:
       count: 20
       sequence:
-      - service: media_player.volume_set
+      - action: media_player.volume_set
         entity_id: media_player.yamaha
         data_template:
           volume_level: '{{ state_attr(''media_player.yamaha'', ''volume_level'')
@@ -19,13 +19,13 @@ volume_up_loop:
   alias: Volume Up Loop
   mode: single
   sequence:
-  - service: script.turn_off
+  - action: script.turn_off
     data:
       entity_id: script.volume_down_loop
   - repeat:
       count: 20
       sequence:
-      - service: media_player.volume_set
+      - action: media_player.volume_set
         entity_id: media_player.yamaha
         data_template:
           volume_level: '{{ state_attr(''media_player.yamaha'', ''volume_level'')
@@ -35,18 +35,18 @@ volume_up_loop:
 yamaha_set_speaker:
   alias: Yamaha Set Speaker
   sequence:
-  - service: rest_command.yamaha_set_speaker
+  - action: rest_command.yamaha_set_speaker
     data:
       speaker: A
       enable: '{{speakerA}}'
-  - service: rest_command.yamaha_set_speaker
+  - action: rest_command.yamaha_set_speaker
     data:
       speaker: B
       enable: '{{speakerB}}'
 apple_tv_sleep:
   alias: Apple TV Sleep
   sequence:
-  - service: remote.send_command
+  - action: remote.send_command
     target:
       entity_id: remote.apple_tv
     data:
@@ -56,7 +56,7 @@ apple_tv_sleep:
 blinds_base_position:
   alias: Blinds Base Position
   sequence:
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/blinds/shutterclose
   - wait_template: '{{ state_attr(''cover.blind1'', ''current_position'')|int == 0
@@ -65,28 +65,28 @@ blinds_base_position:
     timeout:
       minutes: 2
     continue_on_timeout: false
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/blinds/shuttertilt1
       payload: open
 blinds_step_up:
   alias: Blinds Step Up
   sequence:
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/blinds/shuttertiltchange
       payload: 15
 blinds_step_down:
   alias: Blinds Step Down
   sequence:
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/blinds/shuttertiltchange
       payload: -15
 blinds_closed:
   alias: Blinds Closed
   sequence:
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/blinds/shuttertilt1
       payload: close
