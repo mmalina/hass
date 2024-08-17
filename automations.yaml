@@ -2,7 +2,7 @@
   alias: TV turned on
   trigger:
   - platform: state
-    entity_id: binary_sensor.tv_on
+    entity_id: media_player.tv
     to: 'on'
   action:
   - service: media_player.turn_on
@@ -53,7 +53,7 @@
   alias: TV turned off
   trigger:
   - platform: state
-    entity_id: binary_sensor.tv_on
+    entity_id: media_player.tv
     to: 'off'
   action:
   - service: media_player.select_source
