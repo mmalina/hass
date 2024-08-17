@@ -87,6 +87,11 @@ views:
                 name: Living Room
                 state_adaptive_color: true
                 show_fill: false
+              - entity: sensor.staircase_temperature
+                name: Staircase
+                show_state: true
+                state_adaptive_color: true
+                show_fill: false
               - entity: sensor.bedroom_temperature
                 name: Bedroom
                 show_state: true
@@ -108,6 +113,7 @@ views:
                 smoothing: false
             hours_to_show: 24
             points_per_hour: 2
+            decimals: 1
             hour24: true
             icon: mdi:thermometer
             show:
@@ -117,8 +123,8 @@ views:
           - type: custom:mini-graph-card
             name: Humidity
             entities:
-              - entity: sensor.living_room_humidity
-                name: Living Room
+              - entity: sensor.staircase_humidity
+                name: Staircase
                 state_adaptive_color: true
                 show_fill: false
               - entity: sensor.bedroom_humidity
@@ -133,6 +139,7 @@ views:
                 show_fill: false
             hours_to_show: 24
             points_per_hour: 2
+            decimals: 1
             hour24: true
             icon: mdi:water-outline
             show:
@@ -244,16 +251,31 @@ views:
         entity: sensor.outside_temperature_delay
         name: Outside Temperature Delay
         type: sensor
+      - chart_type: line
+        period: day
+        days_to_show: 30
+        type: statistics-graph
+        entities:
+          - sensor.living_room_temperature
+        stat_types:
+          - mean
+          - min
+          - max
+        title: Living Room Temperature
       - type: entities
         entities:
           - entity: remote.living_room_2
-      - entities:
-          - entity: switch.hdmi_4
-            name: Apple TV
-          - entity: switch.hdmi_0
-            name: Panasonic TV
-        show_header_toggle: true
-        title: HDMI CEC
-        type: entities
       - type: media-control
         entity: media_player.yamaha
+      - type: media-control
+        entity: media_player.tv
+      - type: custom:mini-media-player
+        entity: media_player.tv
+      - type: entities
+        entities:
+          - entity: sensor.tv_corner_energy
+            name: Energy
+          - entity: sensor.tv_corner_power
+            name: Power
+          - entity: binary_sensor.tv_on
+        title: TV Corner
