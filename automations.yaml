@@ -308,14 +308,19 @@
         data:
           entity_id: media_player.yamaha
           volume_level: 0.5
+      - service: weather.get_forecasts
+        target:
+          entity_id: weather.forecast
+        data:
+          type: daily
+        response_variable: daily
       - service: tts.google_say
         data:
           entity_id: media_player.yamaha
           message: '"Good morning Martin!" "It''s currently {{states(''sensor.outside_temperature'')}}
             outside" "and {{states(''sensor.living_room_temperature'')}} inside."
-            "Today''s high will be {{ state_attr(''weather.forecast'', ''forecast'')[0][''temperature'']
+            "Today''s high will be {{ daily[''weather.forecast''].forecast[0].temperature
             }} degrees."
-
             '
   mode: single
 - id: nightstand_switch_on
