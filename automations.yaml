@@ -1,21 +1,21 @@
 - id: tv_turned_on
   alias: TV turned on
-  trigger:
-  - platform: state
+  triggers:
+  - trigger: state
     entity_id: media_player.tv
     to: 'on'
-  action:
-  - service: media_player.turn_on
+  actions:
+  - action: media_player.turn_on
     entity_id: media_player.yamaha
-  - service: media_player.select_source
+  - action: media_player.select_source
     data:
       entity_id: media_player.yamaha
       source: Optical
-  - service: rest_command.yamaha_set_speaker
+  - action: rest_command.yamaha_set_speaker
     data:
       speaker: A
       enable: 'true'
-  - service: rest_command.yamaha_set_speaker
+  - action: rest_command.yamaha_set_speaker
     data:
       speaker: B
       enable: 'false'
@@ -43,7 +43,7 @@
         attribute: volume_level
         below: 0.5
       sequence:
-      - service: media_player.volume_set
+      - action: media_player.volume_set
         data:
           entity_id: media_player.yamaha
           volume_level: 0.5
@@ -51,12 +51,12 @@
   mode: single
 - id: tv_turned_off
   alias: TV turned off
-  trigger:
-  - platform: state
+  triggers:
+  - trigger: state
     entity_id: media_player.tv
     to: 'off'
-  action:
-  - service: media_player.select_source
+  actions:
+  - action: media_player.select_source
     data:
       entity_id: media_player.yamaha
       source: Spotify
@@ -72,21 +72,21 @@
   mode: single
 - alias: Lights on in the evening
   id: lights_on_in_the_evening
-  trigger:
-  - platform: sun
+  triggers:
+  - trigger: sun
     event: sunset
     offset: -00:10:00
-  condition:
+  conditions:
   - condition: state
     entity_id: person.martin
     state: home
-  action:
-  - service: scene.turn_on
+  actions:
+  - action: scene.turn_on
     target:
       entity_id: scene.normal
     data:
       transition: 1200
-  - service: light.turn_on
+  - action: light.turn_on
     data:
       transition: 600
       brightness_pct: 68
@@ -94,148 +94,148 @@
       area_id: bedroom
 - id: lights_on_arrival
   alias: Lights On Arrival
-  trigger:
-  - platform: state
+  triggers:
+  - trigger: state
     entity_id: person.martin
     to: home
-  condition:
+  conditions:
   - condition: sun
     after: sunset
     after_offset: -00:10:00
     before: sunrise
-  action:
-  - service: light.turn_on
+  actions:
+  - action: light.turn_on
     entity_id: light.hall
-  - service: scene.turn_on
+  - action: scene.turn_on
     target:
       entity_id: scene.normal
-  - service: light.turn_on
+  - action: light.turn_on
     data:
       brightness_pct: 68
     target:
       area_id: bedroom
 - id: sound_controller_volume_down
   alias: Sound Controller Volume Down
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
       event: 3001
-  action:
-  - service: script.turn_on
+  actions:
+  - action: script.turn_on
     data:
       entity_id: script.volume_down_loop
 - id: sound_controller_volume_up
   alias: Sound Controller Volume Up
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
       event: 2001
-  action:
-  - service: script.turn_on
+  actions:
+  - action: script.turn_on
     data:
       entity_id: script.volume_up_loop
 - id: sound_controller_volume_stop
   alias: Sound Controller Volume Stop
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
   condition: '{{ trigger.event.data.event not in [3001, 2001] }}'
-  action:
-  - service: script.turn_off
+  actions:
+  - action: script.turn_off
     data:
       entity_id: script.volume_up_loop
-  - service: script.turn_off
+  - action: script.turn_off
     data:
       entity_id: script.volume_down_loop
 - id: sound_controller_switch_yamaha
   alias: Sound Controller Turn On
-  trigger:
-  - platform: event
+  triggers:
+  - trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
       event: 1002
-  condition:
+  conditions:
   - condition: state
     entity_id: media_player.yamaha
     state: 'off'
-  action:
-  - service: media_player.turn_on
+  actions:
+  - action: media_player.turn_on
     data:
       entity_id: media_player.yamaha
   mode: single
 - id: lights_off
   alias: Lights off
-  trigger:
-  - platform: state
+  triggers:
+  - trigger: state
     entity_id: person.martin
     to: not_home
-  - platform: time
+  - trigger: time
     at: '4:00:00'
-  action:
-  - service: light.turn_off
+  actions:
+  - action: light.turn_off
     entity_id: all
 - id: freezer_open_alert
   alias: Freezer Open Alert
-  trigger:
-    platform: state
+  triggers:
+    trigger: state
     entity_id: binary_sensor.freezer_door
     to: 'on'
     for: 00:10:00
-  action:
-  - service: persistent_notification.create
+  actions:
+  - action: persistent_notification.create
     data:
       title: Freezer open for over 10 minutes
       message: Freezer open for over 10 minutes.
       notification_id: freezer_open_alert
-  - service: notify.email
+  - action: notify.email
     data:
       title: Freezer open for over 10 minutes
       message: Freezer open for over 10 minutes.
 - id: '1607179755688'
   alias: Turn off heating
   description: ''
-  trigger:
-  - platform: time
+  triggers:
+  - trigger: time
     at: input_datetime.heating_off_time
   condition: []
-  action:
-  - service: climate.turn_off
+  actions:
+  - action: climate.turn_off
     data: {}
     entity_id: climate.heating
   mode: single
 - id: '1607525870870'
   alias: Sound Controller Pause/Resume Spotify
-  trigger:
-  - platform: event
+  triggers:
+  - trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
       event: 1002
   condition: '{{ is_state_attr(''media_player.yamaha'', ''source'', ''Spotify'') }}'
-  action:
-  - service: media_player.media_play_pause
+  actions:
+  - action: media_player.media_play_pause
     data:
       entity_id: media_player.yamaha
   mode: single
 - id: '1607526213723'
   alias: Sound Controller Mute/Unmute
-  trigger:
-  - platform: event
+  triggers:
+  - trigger: event
     event_type: deconz_event
     event_data:
       id: sound_controller
       event: 1002
   condition: '{{ not is_state(''media_player.yamaha'', ''off'') and not is_state_attr(''media_player.yamaha'',
     ''source'', ''Spotify'') }}'
-  action:
-  - service: media_player.volume_mute
+  actions:
+  - action: media_player.volume_mute
     data:
       entity_id: media_player.yamaha
       is_volume_muted: '{{ is_state_attr(''media_player.yamaha'', ''is_volume_muted'',
@@ -243,35 +243,35 @@
   mode: single
 - id: nightstand_switch_all_off
   alias: Nightstand Switch Off
-  trigger:
-  - platform: event
+  triggers:
+  - trigger: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
       event: 2002
-  condition:
+  conditions:
   - condition: state
     entity_id: light.bedroom_lights
     state: 'off'
     for:
       seconds: 1
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ states[''light''] | selectattr(''state'',''eq'', ''on'')
           | list | count > 0 }}'
       sequence:
-      - service: light.turn_off
+      - action: light.turn_off
         entity_id: all
     - conditions:
       - condition: time
         after: 05:30:00
         before: '12:00:00'
       sequence:
-      - service: cover.open_cover
+      - action: cover.open_cover
         entity_id: cover.all_blinds
-      - service: light.turn_on
+      - action: light.turn_on
         data:
           entity_id: light.kitchen_unit
           brightness_pct: 70
@@ -282,20 +282,20 @@
             entity_id: input_boolean.heat_in_the_morning
             state: 'on'
           sequence:
-          - service: climate.turn_on
+          - action: climate.turn_on
             data:
               entity_id: climate.heating
-      - service: media_player.turn_on
+      - action: media_player.turn_on
         entity_id: media_player.yamaha
-      - service: media_player.select_source
+      - action: media_player.select_source
         data:
           entity_id: media_player.yamaha
           source: Server
-      - service: rest_command.yamaha_set_speaker
+      - action: rest_command.yamaha_set_speaker
         data:
           speaker: A
           enable: 'true'
-      - service: rest_command.yamaha_set_speaker
+      - action: rest_command.yamaha_set_speaker
         data:
           speaker: B
           enable: 'true'
@@ -304,17 +304,17 @@
           minutes: 0
           seconds: 8
           milliseconds: 0
-      - service: media_player.volume_set
+      - action: media_player.volume_set
         data:
           entity_id: media_player.yamaha
           volume_level: 0.5
-      - service: weather.get_forecasts
+      - action: weather.get_forecasts
         target:
           entity_id: weather.forecast
         data:
           type: daily
         response_variable: daily
-      - service: tts.google_say
+      - action: tts.google_say
         data:
           entity_id: media_player.yamaha
           message: '"Good morning Martin!" "It''s currently {{states(''sensor.outside_temperature'')}}
@@ -325,85 +325,85 @@
   mode: single
 - id: nightstand_switch_on
   alias: Nightstand Switch On
-  trigger:
-  - platform: event
+  triggers:
+  - trigger: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
       event: 1002
-  condition:
+  conditions:
   - condition: state
     entity_id: light.bedroom_lights
     state: 'on'
     for:
       seconds: 1
-  action:
-  - service: light.turn_off
+  actions:
+  - action: light.turn_off
     target:
       area_id: '{{ area_id(''Living Room'') }}'
-  - service: light.turn_on
+  - action: light.turn_on
     data:
       entity_id: light.bedroom_lights
       brightness: 24
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
       event: 2001
-  action:
-  - service: mqtt.publish
+  actions:
+  - action: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
       payload: true
 - id: tasmota_off
   alias: Tasmota Off
   initial_state: false
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
       event: 2003
-  action:
-  - service: mqtt.publish
+  actions:
+  - action: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
       payload: false
 - id: tasmota_on_off
   alias: Tasmota On Off
   initial_state: false
-  trigger:
-    platform: event
+  triggers:
+    trigger: event
     event_type: deconz_event
     event_data:
       id: bedroom_nightstand_switch
       event: 2002
-  action:
-  - service: mqtt.publish
+  actions:
+  - action: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
       payload: true
   - delay:
       seconds: 2
-  - service: mqtt.publish
+  - action: mqtt.publish
     data:
       topic: cmnd/tasmota1/POWER
       payload: false
 - id: airplay_turned_off
   alias: Airplay Turned Off
   initial_state: true
-  trigger:
-  - platform: template
+  triggers:
+  - trigger: template
     value_template: '{{ not is_state_attr(''media_player.apple_tv'', ''app_id'', ''com.apple.TVAirPlay'')
       }}'
-  action:
+  actions:
   - condition: time
     after: '11:00'
     before: '13:00'
-  - service: script.turn_on
+  - action: script.turn_on
     data:
       entity_id: script.apple_tv_sleep
