@@ -155,9 +155,9 @@ notify:
 
 rest_command:
   yamaha_recall_preset:
-    url: "http://192.168.1.47/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
+    url: "http://192.168.10.176/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
   yamaha_set_speaker:
-    url: "http://192.168.1.47/YamahaExtendedControl/v1/system/setSpeaker{{speaker}}?enable={{enable}}"
+    url: "http://192.168.10.176/YamahaExtendedControl/v1/system/setSpeaker{{speaker}}?enable={{enable}}"
 
 cover:
   - platform: template
