@@ -59,16 +59,34 @@ blinds_base_position:
   - action: mqtt.publish
     data:
       topic: cmnd/blinds/shutterclose
-  - wait_template: '{{ state_attr(''cover.blind1'', ''current_position'')|int == 0
-      and state_attr(''cover.blind2'', ''current_position'')|int == 0 and state_attr(''cover.blind3'',
-      ''current_position'')|int == 0 }}'
-    timeout:
-      minutes: 2
-    continue_on_timeout: false
-  - action: mqtt.publish
-    data:
-      topic: cmnd/blinds/shuttertilt1
-      payload: open
+  - parallel:
+    - sequence:
+      - wait_template: '{{ state_attr(''cover.blind1'', ''current_position'')|int == 0}}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: false
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blind1/shuttertilt1
+          payload: open
+    - sequence:
+      - wait_template: '{{ state_attr(''cover.blind2'', ''current_position'')|int == 0}}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: false
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blind2/shuttertilt1
+          payload: open
+    - sequence:
+      - wait_template: '{{ state_attr(''cover.blind3'', ''current_position'')|int == 0}}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: false
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blind3/shuttertilt1
+          payload: open
 blinds_step_up:
   alias: Blinds Step Up
   sequence:
