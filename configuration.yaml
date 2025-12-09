@@ -45,19 +45,6 @@ sensor:
       - timestamp
     device_class: temperature
     state_class: measurement
-  - platform: template
-    sensors:
-      outside_temperature_delay:
-        friendly_name: Outside Temperature Delay
-        value_template: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
-        unit_of_measurement: Minutes
-      heating_action:
-        value_template: >-
-          {% if states.climate.heating.attributes.hvac_action == 'heating' %}
-            1
-          {% else %}
-            0
-          {% endif %}
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -159,62 +146,6 @@ rest_command:
   yamaha_set_speaker:
     url: "http://192.168.10.176/YamahaExtendedControl/v1/system/setSpeaker{{speaker}}?enable={{enable}}"
 
-cover:
-  - platform: template
-    covers:
-      all_blinds:
-        device_class: shutter
-        open_cover:
-          action: mqtt.publish
-          data:
-            topic: cmnd/blinds/shutteropen
-        close_cover:
-          action: mqtt.publish
-          data:
-            topic: cmnd/blinds/shutterclose
-        stop_cover:
-          action: mqtt.publish
-          data:
-            topic: cmnd/blinds/shutterstop
-        position_template: "50"
-
-# cover:
-#   - platform: group
-#     name: all_blinds
-#     entities:
-#       - cover.blind1
-#       - cover.blind2
-#       - cover.blind3
-
-switch:
-  - platform: template
-    switches:
-      home:
-        friendly_name: Home
-        turn_on:
-          action: mqtt.publish
-          data:
-            topic: location/martin
-            payload: "home"
-            qos: 1
-            retain: 1
-        turn_off:
-          action: mqtt.publish
-          data:
-            topic: location/martin
-            payload: "not home"
-            qos: 1
-            retain: 1
-      heating_on:
-        friendly_name: Heating on/off status
-        value_template: "{{ not is_state('climate.heating', 'off') }}"
-        turn_on:
-          action: climate.turn_on
-          entity_id: climate.heating
-        turn_off:
-          action: climate.turn_off
-          entity_id: climate.heating
-
 tts:
   - platform: google_translate
     service_name: google_say
@@ -229,5 +160,61 @@ template:
   - binary_sensor:
       - name: TV On
         state: "{{ states('sensor.tv_corner_power')|int > 40 }}"
+  - sensor:
+    - unit_of_measurement: Minutes
+      name: Outside Temperature Delay
+      default_entity_id: sensor.outside_temperature_delay
+      state: "{{ ((as_timestamp(utcnow()) - state_attr('sensor.outside_temperature', 'timestamp')) / 60) | round(0) }}"
+    - default_entity_id: sensor.heating_action
+      name: Heating Action
+      state: >-
+        {% if states.climate.heating.attributes.hvac_action == 'heating' %}
+          1
+        {% else %}
+          0
+        {% endif %}
+  - switch:
+    - name: Home
+      default_entity_id: switch.home
+      turn_on:
+      - action: mqtt.publish
+        data:
+          topic: location/martin
+          payload: "home"
+          qos: 1
+          retain: 1
+      turn_off:
+      - action: mqtt.publish
+        data:
+          topic: location/martin
+          payload: "not home"
+          qos: 1
+          retain: 1
+    - name: Heating on/off status
+      default_entity_id: switch.heating_on
+      state: "{{ not is_state('climate.heating', 'off') }}"
+      turn_on:
+      - action: climate.turn_on
+        entity_id: climate.heating
+      turn_off:
+      - action: climate.turn_off
+        entity_id: climate.heating
+  - cover:
+    - name: All Blinds
+      default_entity_id: cover.all_blinds
+      device_class: shutter
+      open_cover:
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blinds/shutteropen
+      close_cover:
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blinds/shutterclose
+      stop_cover:
+      - action: mqtt.publish
+        data:
+          topic: cmnd/blinds/shutterstop
+      position: "50"
 
 scene: !include scenes.yaml
