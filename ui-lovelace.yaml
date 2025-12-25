@@ -35,39 +35,76 @@ views:
                 - name: Radio Wave
                   type: playlist
                   id: presets:2
-          - entities:
-              - entity: light.center
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.tv_wall
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.tv_lamp
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.christmas_lights
-              - entity: light.kitchen_table
-                name: Table
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.kitchen_unit
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.bedroom_nightstand
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.bias_lighting
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.hue_go
-                toggle: true
-                type: custom:slider-entity-row
-              - entity: light.hall
-              - entity: light.staircase
-                toggle: true
-                type: custom:slider-entity-row
-            title: Light
-            type: entities
+          - type: heading
+            icon: mdi:lightbulb-multiple
+            heading: Lights
+            heading_style: title
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.center
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.tv_wall
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.tv_lamp
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.christmas_lights
+            features:
+              - type: toggle
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.kitchen_table
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.kitchen_unit
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.bedroom_nightstand
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.bias_lighting
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.hue_go
+            features:
+              - type: light-brightness
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.hall
+            features:
+              - type: toggle
+          - type: tile
+            features_position: inline
+            vertical: false
+            entity: light.staircase
+            features:
+              - type: light-brightness
       - type: vertical-stack
         cards:
           - type: custom:mini-graph-card
@@ -148,8 +185,11 @@ views:
               extrema: true
       - type: vertical-stack
         cards:
-          - type: weather-forecast
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
             entity: weather.forecast
+            forecast_type: daily
           - type: entities
             entities:
               - entity: cover.all_blinds
@@ -241,6 +281,10 @@ views:
             entities:
               - entity: binary_sensor.main_door
               - entity: binary_sensor.freezer_door
+          - entities:
+              - entity: fan.trainer_fan
+            title: ''
+            type: entities
     path: default_view
     title: Home
   - title: Misc

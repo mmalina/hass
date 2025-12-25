@@ -100,6 +100,7 @@ homekit:
       - light.bias_lighting
       - light.kitchen_table
       - light.center
+      - fan.trainer_fan
 
 mqtt:
   device_tracker:
@@ -216,5 +217,17 @@ template:
         data:
           topic: cmnd/blinds/shutterstop
       position: "50"
+  - fan:
+      - name: "Trainer Fan"
+        unique_id: trainer_fan
+        state: "{{ is_state('switch.smart_plug', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          target:
+            entity_id: switch.smart_plug
+        turn_off:
+          service: switch.turn_off
+          target:
+            entity_id: switch.smart_plug
 
 scene: !include scenes.yaml
