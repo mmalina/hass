@@ -63,7 +63,7 @@ light:
       - light.bar_2
   - platform: switch
     name: Christmas Lights
-    entity_id: switch.smart_plug
+    entity_id: switch.tv_corner
 
 climate:
   - platform: generic_thermostat
