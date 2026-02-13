@@ -90,6 +90,7 @@
     data:
       transition: 600
       brightness_pct: 68
+      color_temp: 366
     target:
       area_id: bedroom
 - id: lights_on_arrival
@@ -112,6 +113,7 @@
   - action: light.turn_on
     data:
       brightness_pct: 68
+      color_temp: 366
     target:
       area_id: bedroom
 - id: sound_controller_volume_down
@@ -342,9 +344,11 @@
     target:
       area_id: '{{ area_id(''Living Room'') }}'
   - action: light.turn_on
+    target:
+      area_id: bedroom
     data:
-      entity_id: light.bedroom_lights
       brightness: 24
+      color_temp: 454
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
