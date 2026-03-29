@@ -90,7 +90,7 @@
     data:
       transition: 600
       brightness_pct: 68
-      color_temp: 366
+      color_temp_kelvin: 2732
     target:
       area_id: bedroom
 - id: lights_on_arrival
@@ -113,7 +113,7 @@
   - action: light.turn_on
     data:
       brightness_pct: 68
-      color_temp: 366
+      color_temp_kelvin: 2732
     target:
       area_id: bedroom
 - id: sound_controller_volume_down
@@ -348,7 +348,7 @@
       area_id: bedroom
     data:
       brightness: 24
-      color_temp: 454
+      color_temp_kelvin: 2203
 - id: tasmota_on
   alias: Tasmota On
   initial_state: false
