@@ -19,18 +19,6 @@
     data:
       speaker: B
       enable: 'false'
-  - choose:
-    - conditions:
-      - condition: time
-        after: '10:00:00'
-        before: '12:00:00'
-      sequence:
-      - device_id: ec2fe7d396cef72ecca9b83e7419847e
-        domain: cover
-        entity_id: cover.blind2
-        type: set_position
-        position: 0
-        enabled: false
   - delay:
       hours: 0
       minutes: 0
@@ -60,14 +48,6 @@
     data:
       entity_id: media_player.yamaha
       source: Spotify
-  - condition: time
-    after: '11:00'
-    before: '13:00'
-  - device_id: ec2fe7d396cef72ecca9b83e7419847e
-    domain: cover
-    entity_id: cover.blind2
-    type: set_position
-    position: 100
   initial_state: 'on'
   mode: single
 - alias: Lights on in the evening
