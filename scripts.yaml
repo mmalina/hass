@@ -53,58 +53,94 @@ apple_tv_sleep:
       delay_secs: 1
       command:
       - suspend
-blinds_base_position:
-  alias: Blinds Base Position
-  sequence:
-  - action: mqtt.publish
-    data:
-      topic: cmnd/blinds/shutterclose
-  - parallel:
-    - sequence:
-      - wait_template: '{{ state_attr(''cover.blind1'', ''current_position'')|int == 0}}'
-        timeout:
-          minutes: 2
-        continue_on_timeout: false
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blind1/shuttertilt1
-          payload: open
-    - sequence:
-      - wait_template: '{{ state_attr(''cover.blind2'', ''current_position'')|int == 0}}'
-        timeout:
-          minutes: 2
-        continue_on_timeout: false
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blind2/shuttertilt1
-          payload: open
-    - sequence:
-      - wait_template: '{{ state_attr(''cover.blind3'', ''current_position'')|int == 0}}'
-        timeout:
-          minutes: 2
-        continue_on_timeout: false
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blind3/shuttertilt1
-          payload: open
 blinds_step_up:
   alias: Blinds Step Up
   sequence:
-  - action: mqtt.publish
+  - action: cover.set_cover_tilt_position
     data:
-      topic: cmnd/blinds/shuttertiltchange
-      payload: 15
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind1', 'current_tilt_position') | int %}
+        {% if cur < 35 %}35{% elif cur < 50 %}50{% elif cur < 65 %}65{% else %}100{% endif %}
+    target:
+      entity_id: cover.blind1
+  - action: cover.set_cover_tilt_position
+    data:
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind2', 'current_tilt_position') | int %}
+        {% if cur < 35 %}35{% elif cur < 50 %}50{% elif cur < 65 %}65{% else %}100{% endif %}
+    target:
+      entity_id: cover.blind2
+  - action: cover.set_cover_tilt_position
+    data:
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind3', 'current_tilt_position') | int %}
+        {% if cur < 35 %}35{% elif cur < 50 %}50{% elif cur < 65 %}65{% else %}100{% endif %}
+    target:
+      entity_id: cover.blind3
 blinds_step_down:
   alias: Blinds Step Down
   sequence:
-  - action: mqtt.publish
+  - action: cover.set_cover_tilt_position
     data:
-      topic: cmnd/blinds/shuttertiltchange
-      payload: -15
-blinds_closed:
-  alias: Blinds Closed
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind1', 'current_tilt_position') | int %}
+        {% if cur > 65 %}65{% elif cur > 50 %}50{% elif cur > 35 %}35{% else %}0{% endif %}
+    target:
+      entity_id: cover.blind1
+  - action: cover.set_cover_tilt_position
+    data:
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind2', 'current_tilt_position') | int %}
+        {% if cur > 65 %}65{% elif cur > 50 %}50{% elif cur > 35 %}35{% else %}0{% endif %}
+    target:
+      entity_id: cover.blind2
+  - action: cover.set_cover_tilt_position
+    data:
+      tilt_position: >-
+        {% set cur = state_attr('cover.blind3', 'current_tilt_position') | int %}
+        {% if cur > 65 %}65{% elif cur > 50 %}50{% elif cur > 35 %}35{% else %}0{% endif %}
+    target:
+      entity_id: cover.blind3
+blinds_base_position:
+  alias: Blinds Base Position
   sequence:
-  - action: mqtt.publish
-    data:
-      topic: cmnd/blinds/shuttertilt1
-      payload: close
+  - parallel:
+    - sequence:
+      - action: cover.close_cover
+        target:
+          entity_id: cover.blind1
+      - wait_template: '{{ is_state_attr(''cover.blind1'', ''current_position'', 0) }}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: true
+      - action: cover.set_cover_tilt_position
+        data:
+          tilt_position: 100
+        target:
+          entity_id: cover.blind1
+    - sequence:
+      - action: cover.close_cover
+        target:
+          entity_id: cover.blind2
+      - wait_template: '{{ is_state_attr(''cover.blind2'', ''current_position'', 0) }}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: true
+      - action: cover.set_cover_tilt_position
+        data:
+          tilt_position: 100
+        target:
+          entity_id: cover.blind2
+    - sequence:
+      - action: cover.close_cover
+        target:
+          entity_id: cover.blind3
+      - wait_template: '{{ is_state_attr(''cover.blind3'', ''current_position'', 0) }}'
+        timeout:
+          minutes: 2
+        continue_on_timeout: true
+      - action: cover.set_cover_tilt_position
+        data:
+          tilt_position: 100
+        target:
+          entity_id: cover.blind3

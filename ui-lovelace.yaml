@@ -6,7 +6,7 @@ views:
         cards:
           - entity: media_player.yamaha
             type: custom:mini-media-player
-            max_volume: '60'
+            max_volume: "60"
             shortcuts:
               columns: 3
               column_height: 30
@@ -15,20 +15,20 @@ views:
                   type: service
                   id: script.yamaha_set_speaker
                   data:
-                    speakerA: 'true'
-                    speakerB: 'false'
+                    speakerA: "true"
+                    speakerB: "false"
                 - name: B
                   type: service
                   id: script.yamaha_set_speaker
                   data:
-                    speakerA: 'false'
-                    speakerB: 'true'
+                    speakerA: "false"
+                    speakerB: "true"
                 - name: A+B
                   type: service
                   id: script.yamaha_set_speaker
                   data:
-                    speakerA: 'true'
-                    speakerB: 'true'
+                    speakerA: "true"
+                    speakerB: "true"
                 - name: Worldwide FM
                   type: playlist
                   id: presets:1
@@ -248,9 +248,9 @@ views:
                 icon: mdi:window-shutter
                 tap_action:
                   action: call-service
-                  service: script.turn_on
+                  service: cover.close_cover
                   service_data:
-                    entity_id: script.blinds_closed
+                    entity_id: cover.all_blinds
                 icon_height: 24px
           - entity: climate.heating
             type: custom:simple-thermostat
@@ -275,7 +275,7 @@ views:
           - entities:
               - entity: person.martin
               - entity: switch.home
-            title: ''
+            title: ""
             type: entities
           - type: entities
             entities:
@@ -283,7 +283,7 @@ views:
               - entity: binary_sensor.freezer_door
           - entities:
               - entity: fan.trainer_fan
-            title: ''
+            title: ""
             type: entities
     path: default_view
     title: Home

@@ -200,23 +200,6 @@ template:
       turn_off:
       - action: climate.turn_off
         entity_id: climate.heating
-  - cover:
-    - name: All Blinds
-      default_entity_id: cover.all_blinds
-      device_class: shutter
-      open_cover:
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blinds/shutteropen
-      close_cover:
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blinds/shutterclose
-      stop_cover:
-      - action: mqtt.publish
-        data:
-          topic: cmnd/blinds/shutterstop
-      position: "50"
   - fan:
       - name: "Trainer Fan"
         unique_id: trainer_fan
@@ -229,5 +212,14 @@ template:
           service: switch.turn_off
           target:
             entity_id: switch.smart_plug
+
+cover:
+  - platform: group
+    name: All Blinds
+    unique_id: all_blinds
+    entities:
+      - cover.blind1
+      - cover.blind2
+      - cover.blind3
 
 scene: !include scenes.yaml
