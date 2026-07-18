@@ -127,20 +127,6 @@ lovelace:
 # Activate the configuration editor
 config:
 
-notify:
-  - name: email
-    # sender: no-reply@homeassistant.local
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: anyberry@gmail.com
-    encryption: starttls
-    username: anyberry@gmail.com
-    password: !secret gmail_password
-    recipient: anyberry@gmail.com
-    sender_name: My Home Assistant
-
 rest_command:
   yamaha_recall_preset:
     url: "http://192.168.10.176/YamahaExtendedControl/v1/netusb/recallPreset?zone=main&num={{num}}"
