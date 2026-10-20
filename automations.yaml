@@ -176,7 +176,9 @@
       title: Freezer open for over 10 minutes
       message: Freezer open for over 10 minutes.
       notification_id: freezer_open_alert
-  - action: notify.email
+  - action: notify.send_message
+    target:
+      entity_id: notify.email_anyberry_gmail_com
     data:
       title: Freezer open for over 10 minutes
       message: Freezer open for over 10 minutes.
